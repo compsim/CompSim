@@ -1,0 +1,159 @@
+#stepNextBtn {
+  -fx-background-image: url(/img/icons/stepNext.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#stepNextBPBtn {
+  -fx-background-image: url(/img/icons/stepNextBP.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#showExecBtn {
+  -fx-background-image: url(/img/icons/showExec.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#contExecBtn {
+  -fx-background-image: url(/img/icons/contExec.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#openBtn {
+  -fx-background-image: url(/img/icons/open.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#saveBtn {
+  -fx-background-image: url(/img/icons/save.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#forwardBtn {
+  -fx-background-image: url(/img/icons/forward.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#backwardBtn {
+  -fx-background-image: url(/img/icons/backward.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#runBtn {
+  -fx-background-image: url(/img/icons/run.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#debugBtn {
+  -fx-background-image: url(/img/icons/debug.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#stopBtn {
+  -fx-background-image: url(/img/icons/stop.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#searchBtn {
+  -fx-background-image: url(/img/icons/search.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+.table-cell:editable {
+  -fx-border-color: red ;
+}
