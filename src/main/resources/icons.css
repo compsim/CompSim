@@ -89,7 +89,7 @@
   -fx-background-position: center;
 }
 
-#backwardBtn {
+#backBtn {
   -fx-background-image: url(/img/icons/backward.png);
   -fx-background-size: 16px 16px;
   -fx-min-width: 24px;
