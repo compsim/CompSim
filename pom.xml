@@ -11,10 +11,11 @@
 
   <properties>
     <kotlin.version>1.3.21</kotlin.version>
+    <tornadofx.version>1.7.17</tornadofx.version>
     <main.class>com.adlerd.compsim.CompSim</main.class>
     <resources>src/main/resources</resources>
     <sources>src/main/kotlin</sources>
-    <sources>src/test/kotlin</sources>
+<!--    <sources>src/test/kotlin</sources>-->
     <icon.windows>${resources}/tc4_logo.ico</icon.windows>
     <icon.macos>${resources}/tc4_logo.icns</icon.macos>
   </properties>
@@ -39,6 +40,11 @@
       <artifactId>kotlin-test</artifactId>
       <version>${kotlin.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>no.tornado</groupId>
+      <artifactId>tornadofx</artifactId>
+      <version>${tornadofx.version}</version>
     </dependency>
     <!--Google Guava-->
     <dependency>
