@@ -3,14 +3,15 @@ package com.adlerd.compsim
 import com.adlerd.compsim.core.CommandLine
 import com.adlerd.compsim.core.Machine
 import com.adlerd.compsim.core.TempRun
-import com.adlerd.compsim.gui.fx.CompSimGUI
 import com.adlerd.compsim.gui.fxml.CompSimTestGUI
 import com.adlerd.compsim.gui.swing.LC3GUI
+import com.adlerd.compsim.gui.tornado.CompSimTFX
 import com.adlerd.compsim.util.ErrorLog
 import com.adlerd.compsim.util.Logger.errorln
 import com.adlerd.compsim.util.Logger.infoln
 import com.adlerd.compsim.util.exceptions.GenericException
 import javafx.application.Application
+import tornadofx.launch
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -87,7 +88,7 @@ object CompSim {
         } else if (!isLC3 && !isP37X) {
             errorln("ISA not specified", false)
             printUsage()
-        } else if (!isSwing && !isFXML) {
+        } else if (isSwing && isFXML) {
             errorln("Cannot initialize both Swing and FXML GUI", false)
             printUsage()
         } else {

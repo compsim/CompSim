@@ -18,7 +18,7 @@ import java.util.*
 import javax.swing.SwingUtilities
 import kotlin.collections.ArrayList
 
-class Machine : Runnable {
+open class Machine : Runnable {
 
     private val dataArrayList = ArrayList<MemoryRow>(MEM_SIZE)
     val data: ObservableList<MemoryRow>
