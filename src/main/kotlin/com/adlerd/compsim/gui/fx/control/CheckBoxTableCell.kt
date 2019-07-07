@@ -6,16 +6,14 @@ import javafx.geometry.Pos
 import javafx.scene.control.CheckBox
 import javafx.scene.control.TableCell
 
-
 /**
  *  CheckBoxTableCell for creating a CheckBox in a table cell
  */
 class CheckBoxTableCell<S, T> : TableCell<S, T>() {
-    private val checkBox: CheckBox
-    private var ov: ObservableValue<T>? = null
+    private val checkBox: CheckBox = CheckBox()
+    private var value: ObservableValue<T>? = null
 
     init {
-        this.checkBox = CheckBox()
         this.checkBox.alignment = Pos.CENTER
 
         alignment = Pos.CENTER
@@ -29,12 +27,12 @@ class CheckBoxTableCell<S, T> : TableCell<S, T>() {
             setGraphic(null)
         } else {
             graphic = checkBox
-            if (ov is BooleanProperty) {
-                checkBox.selectedProperty().unbindBidirectional((ov as BooleanProperty))
+            if (value is BooleanProperty) {
+                checkBox.selectedProperty().unbindBidirectional((value as BooleanProperty))
             }
-            ov = tableColumn.getCellObservableValue(index)
-            if (ov is BooleanProperty) {
-                checkBox.selectedProperty().bindBidirectional((ov as BooleanProperty))
+            value = tableColumn.getCellObservableValue(index)
+            if (value is BooleanProperty) {
+                checkBox.selectedProperty().bindBidirectional((value as BooleanProperty))
             }
         }
     }
