@@ -3,7 +3,6 @@ package com.adlerd.compsim.gui.fx.layout
 import com.adlerd.compsim.core.CommandLine
 import com.adlerd.compsim.core.Console
 import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.util.Logger.infoln
 import com.adlerd.compsim.util.exceptions.GenericException
 import javafx.event.EventHandler
 import javafx.scene.control.TextArea
@@ -25,7 +24,7 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
         this.text = "Console"
         this.isCollapsible = true
         this.isExpanded = false
-        this.isAnimated = false
+        this.isAnimated = true
 
 //        this.minHeight = 200.0
 //        this.prefHeight = 200.0
@@ -73,7 +72,7 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
         }
         // Add event filter to consume the mouse click making focusing on the text area impossible
         outputArea.addEventFilter(MouseEvent.MOUSE_PRESSED) { event ->
-            infoln("Mouse click in command output window consumed")
+//            infoln("Mouse click in command output window consumed")
             event.consume()
         }
         outputArea.isFocusTraversable = false

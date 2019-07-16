@@ -21,7 +21,7 @@ class CompSimTestGUI: Application() {
 
 
         window.scene = scene
-        window.title = "CompSim ${CompSim.VERSION}"
+        window.title = "CompSim FXML ${CompSim.VERSION}"
         window.show()
     }
 }

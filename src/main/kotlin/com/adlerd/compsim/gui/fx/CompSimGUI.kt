@@ -37,8 +37,8 @@ class CompSimGUI: Application() {
         stage.scene = Scene(root, 1024.0, 768.0)
         stage.scene.stylesheets.add(CompSimGUI::class.java.getResource("/icons.css").toExternalForm())
         stage.minWidth = 1024.0
-        stage.minHeight = 960.0
-        stage.title = CompSim.getVersion()
+        stage.minHeight = 768.0
+        stage.title = "${CompSim.version} JavaFX"
         stage.show()
 
         Console.registerConsole(this.consolePane)

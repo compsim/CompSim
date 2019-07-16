@@ -4,6 +4,7 @@ import com.adlerd.compsim.core.Machine
 import com.adlerd.compsim.gui.fx.control.ToolbarButton
 import com.adlerd.compsim.gui.fx.control.ToolbarComboBox
 import com.adlerd.compsim.gui.fx.control.ToolbarSeparator
+import com.adlerd.compsim.util.Logger.infoln
 import javafx.scene.control.ToolBar
 import javafx.scene.control.Tooltip
 
@@ -11,9 +12,9 @@ class MainToolbar(machine: Machine): ToolBar() {
 
     val openBtn = ToolbarButton("openBtn", Tooltip("Open"))
     val saveBtn = ToolbarButton("saveBtn", Tooltip("Save"))
-    val backBtn = ToolbarButton("backwardBtn", Tooltip("Back"))
+    val backBtn = ToolbarButton("backBtn", Tooltip("Back"))
     val forwardBtn = ToolbarButton("forwardBtn", Tooltip("Forward"))
-    val playBtn = ToolbarButton("runBtn", Tooltip("Play"))
+    val runBtn = ToolbarButton("runBtn", Tooltip("Play"))
     val debugBtn = ToolbarButton("debugBtn", Tooltip("Debug"))
     val stopBtn = ToolbarButton("stopBtn", Tooltip("Stop"))
     val searchBtn = ToolbarButton("searchBtn", Tooltip("Search"))
@@ -28,7 +29,7 @@ class MainToolbar(machine: Machine): ToolBar() {
         saveBtn.isDisable = false
         backBtn.isDisable = false
         forwardBtn.isDisable = false
-        playBtn.isDisable = false
+        runBtn.isDisable = false
         debugBtn.isDisable = false
         stopBtn.isDisable = true
         searchBtn.isDisable = false
@@ -36,7 +37,39 @@ class MainToolbar(machine: Machine): ToolBar() {
 
         this.items.addAll(openBtn, saveBtn,
             ToolbarSeparator(), backBtn, forwardBtn,
-            ToolbarSeparator(), runComboBox, playBtn, debugBtn, stopBtn,
+            ToolbarSeparator(), runComboBox, runBtn, debugBtn, stopBtn,
             ToolbarSeparator(), searchBtn)
+
+        openBtn.setOnAction {
+            infoln("Open File Button")
+        }
+
+        saveBtn.setOnAction {
+            infoln("Save File Button")
+        }
+
+        backBtn.setOnAction {
+            infoln("Back Button")
+        }
+
+        forwardBtn.setOnAction {
+            infoln("Forward Button")
+        }
+
+        runBtn.setOnAction {
+            infoln("Run Button")
+        }
+
+        debugBtn.setOnAction {
+            infoln("Debug Run Button")
+        }
+
+        stopBtn.setOnAction {
+            infoln("Stop Execution Button")
+        }
+
+        searchBtn.setOnAction {
+            infoln("Search Button")
+        }
     }
 }
