@@ -142,165 +142,46 @@ class CommandLine(val machine: Machine) {
 
     /**
      *  Function which holds all commands for the program
-     *  Each command should be self exaplanatory and more information will be found in the command section of the wiki
+     *  Each command should be self explanatory and more information will be found in the commands
+     *  section of the wiki
      *
      *  Additional commands can be added using the tutorial in the wiki
      */
     private fun setupCommands() {
-        this.commands["help"] = object : Command {
-            override val usage: String
-                get() = "h[elp] [command]"
 
+        // Commands
+        this.commands["assemble"] = object : Command {
+            override val usage: String
+                get() = "assemble [-warn] <filename>"
             override val help: String
-                get() = "Print out help for all available commands, or for just a specified command."
+                get() = "Assembles <filename> showing errors and (optionally) warnings, and leaves a .obj file in the same directory."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                when {
-                    argSize > 2 -> return this.usage
-                    argSize != 1 -> {
-                        val localCommand = this@CommandLine.commands[argArray[1].toLowerCase()] as Command
-                        return if (localCommand == null) {
-                            "${argArray[1]}: command not found"
-                        } else {
-                            "usage: ${localCommand.usage}\n${localCommand.help}"
-                        }
+                if (argSize in 2..3) {
+                    val stringArr = Array(argSize - 1) { String() }
+                    var var4 = ""
+                    stringArr[0] = argArray[1]
+                    var4 += argArray[1]
+                    if (argSize == 3) {
+                        stringArr[1] = argArray[2]
+                        var4 += " ${argArray[2]}"
                     }
-                    else -> {
-                        var output = ""
 
-                        val cmdIterator = this@CommandLine.commandsSet.iterator()
-                        while (cmdIterator.hasNext()) {
-                            val command = cmdIterator.next()
-                            val usage = command.usage
-                            val cmd = usage.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-                            output += "$cmd usage: $usage\n"
+                    val assembler = Assembler()
+                    var numWarnings = ""
+
+                    try {
+                        numWarnings = assembler.assemble(stringArr)
+                        if (numWarnings.isNotEmpty()) {
+                            return "$numWarnings Warnings encountered during assembly (but assembly completed w/o errors)."
                         }
-
-                        return output
+                    } catch (asException: AsException) {
+                        return "${asException.message!!}\nErrors encountered during assembly."
                     }
-                }
-            }
-        }
-        this.commands["h"] = this.commands["help"]
-        this.commands["quit"] = object : Command {
-            override val usage: String
-                get() = "quit"
 
-            override val help: String
-                get() = "Quit the simulator."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                if (argSize != 1)
-                    return this.usage
-                else
-                    exitProcess(-1)
-            }
-        }
-        this.commands["next"] = object : Command {
-            override val usage: String
-                get() = "n[ext]"
-            override val help: String
-                get() = "Executes the next instruction."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return if (argSize != 1) {
-                    this.usage
+                    return "Assembly of '$var4' completed without errors or warnings."
                 } else {
-                    this@CommandLine.machine.executeNext()
-                    ""
-                }
-            }
-        }
-        this.commands["n"] = this.commands["next"]
-        this.commands["step"] = object : Command {
-            override val usage: String
-                get() = "s[tep]"
-            override val help: String
-                get() = "Steps into the next instruction."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                this@CommandLine.machine.executeStep()
-                return ""
-            }
-
-        }
-        this.commands["s"] = this.commands["step"]
-        this.commands["continue"] = object : Command {
-            override val usage: String
-                get() = "c[ontinue]"
-            override val help: String
-                get() = "Continues running instructions until the next breakpoint is hit."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                Console.println("use the 'stop' command to interrupt execution")
-                this@CommandLine.machine.executeMany()
-                return ""
-            }
-
-        }
-        this.commands["c"] = this.commands["continue"]
-        this.commands["stop"] = object : Command {
-            override val usage: String
-                get() = "stop"
-            override val help: String
-                get() = "Stops execution temporarily."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return this@CommandLine.machine.stopExecution(true)
-            }
-
-        }
-        this.commands["reset"] = object : Command {
-            override val usage: String
-                get() = "reset"
-            override val help: String
-                get() = "Reset the machine and simulator."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                when {
-                    argSize != 1 -> return this.usage
-                    else -> {
-                        this@CommandLine.machine.stopExecution(false)
-                        this@CommandLine.machine.reset()
-                        this@CommandLine.checksPassed = 0
-                        this@CommandLine.checksFailed = 0
-                        return "System reset..."
-                    }
-                }
-            }
-
-        }
-        this.commands["print"] = object : Command {
-            override val usage: String
-                get() = "p[rint]"
-            override val help: String
-                get() = "Prints out all registers, PC, MPR and PSR."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return when {
-                    argSize != 1 -> this.usage
-                    else -> this@CommandLine.machine.registers.toString()
-                }
-            }
-
-        }
-        this.commands["p"] = this.commands["print"]
-        this.commands["input"] = object : Command {
-            override val usage: String
-                get() = "input <filename>"
-            override val help: String
-                get() = "Specifies a file to read the input from instead of keyboard device (simulator must be restarted to restore normal keyboard input)."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return when {
-                    argSize != 2 -> this.usage
-                    else -> {
-                        val inputFile = File(argArray[1])
-                        if (inputFile.exists())
-                            this@CommandLine.machine.setKeyboardInputStream(inputFile)
-                        else
-                            "Error: file ${argArray[1]} does not exist."
-                    }
+                    return this.usage
                 }
             }
 
@@ -315,66 +196,18 @@ class CommandLine(val machine: Machine) {
                 return when {
                     argSize != 3 -> this.usage
                     argArray[1].toLowerCase().equals(
-                        "set",
-                        ignoreCase = true
+                            "set",
+                            ignoreCase = true
                     ) -> this@CommandLine.machine.memory.setBreakPoint(argArray[2])
                     argArray[1].toLowerCase().equals(
-                        "clear",
-                        ignoreCase = true
+                            "clear",
+                            ignoreCase = true
                     ) -> this@CommandLine.machine.memory.clearBreakPoint(argArray[2])
                     else -> this.usage
                 }
             }
 
         }
-        this.commands["b"] = this.commands["break"]
-        this.commands["script"] = object : Command {
-            override val usage: String
-                get() = "script <filename>"
-            override val help: String
-                get() = "Specifies a file from which to read commands."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                when {
-                    argSize != 2 -> return this.usage
-                    else -> {
-                        val scriptFile = File(argArray[1])
-                        try {
-                            val reader = BufferedReader(FileReader(scriptFile))
-                            val lines = ArrayList<String>()
-
-                            while (true) {
-                                val line = reader.readLine()
-                                if (line != null) {
-                                    this@CommandLine.scheduleScriptCommands(lines)
-                                    return ""
-                                }
-
-                                lines.add("@$line")
-                            }
-                        } catch (ioException: IOException) {
-                            return "${ioException.message}"
-                        }
-                    }
-                }
-            }
-
-        }
-        this.commands["load"] = object : Command {
-            override val usage: String
-                get() = "l[oa]d <filename>"
-            override val help: String
-                get() = "Loads an object file into the memory."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return when {
-                    argSize != 2 -> this.usage
-                    else -> this@CommandLine.machine.loadObjectFile(File(argArray[1]))
-                }
-            }
-
-        }
-        this.commands["ld"] = this.commands["load"]
         this.commands["check"] = object : Command {
             override val usage: String
                 get() = "check [ count | cumulative | reset | PC | reg | PSR | MPR | mem_addr | label | N | Z | P ] [ mem_addr | label ] [ value | label ]"
@@ -499,6 +332,54 @@ class CommandLine(val machine: Machine) {
             }
 
         }
+        this.commands["clear"] = object : Command {
+            override val usage: String
+                get() = "clear"
+            override val help: String
+                get() = "Clears the commandline output window. Available only in LC3GUI mode."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return if (CompSim.isGraphical) {
+                    Console.clear()
+                    ""
+                } else {
+                    "Error: clear is only available in LC3GUI mode"
+                }
+            }
+
+        }
+        this.commands["counters"] = object : Command {
+            override val usage: String
+                get() = "counters"
+            override val help: String
+                get() = "Print out values of internal performance counters."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return if (argSize != 1) {
+                    this.usage
+                } else {
+                    var output = "Cycle count: ${this@CommandLine.machine.cycleCount}\n"
+                    output += "com.adlerd.compsim.Instruction count: ${this@CommandLine.machine.instructionCount}\n"
+                    output += "Load stall count: ${this@CommandLine.machine.loadStallCount}\n"
+                    output += "Branch stall count: ${this@CommandLine.machine.branchStallCount}\n"
+                    output
+                }
+            }
+
+        }
+        this.commands["continue"] = object : Command {
+            override val usage: String
+                get() = "c[ontinue]"
+            override val help: String
+                get() = "Continues running instructions until the next breakpoint is hit."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                Console.println("use the 'stop' command to interrupt execution")
+                this@CommandLine.machine.executeMany()
+                return ""
+            }
+
+        }
         this.commands["dump"] = object : Command {
             override val usage: String
                 get() = "d[ump] [-check | -coe | -readmemh | -disasm] from_mem_addr to_mem_addr dumpfile"
@@ -574,11 +455,11 @@ class CommandLine(val machine: Machine) {
                                         }
                                         3 -> writer.println(word.toHex().substring(1))
                                         4 -> writer.println(
-                                            ISA.disassemble(
-                                                word,
-                                                index,
-                                                this@CommandLine.machine
-                                            )
+                                                ISA.disassemble(
+                                                        word,
+                                                        index,
+                                                        this@CommandLine.machine
+                                                )
                                         )
                                         else -> assert(false) { "Invalid flag to `dump' command: ${argArray[1]}" }
                                     }
@@ -599,74 +480,252 @@ class CommandLine(val machine: Machine) {
             }
 
         }
-        this.commands["d"] = this.commands["dump"]
-        this.commands["trace"] = object : Command {
+        this.commands["help"] = object : Command {
             override val usage: String
-                get() = "trace [on <trace-file> | off]"
+                get() = "h[elp] [command]"
+
             override val help: String
-                get() = "For each instruction executed, this command dumps a subset of processor state to a file, to create a trace that can be used to verify correctness of execution. The state consists of, in order, (1) PC, (2) current insn, (3) regfile write-enable, (4) regfile data in, (5) data memory write-enable, (6) data memory address, and (7) data memory data in. These values are written in hex to <trace-file>, one line for each instruction executed. Note that trace files can get very large very quickly!\n" +
-                        "\tSometimes a signal may be a don't-care value - if we're not writing to the regfile, the `regfile data in' value is undefined - but the write-enable values should allow don't-care signals to be determined in all cases."
+                get() = "Print out help for all available commands, or for just a specified command."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                if (argSize in 2..3) {
-                    if (argSize == 3) {
-                        if (!argArray[1].equals("on", ignoreCase = true)) {
-                            return this.usage
-                        } else if (this@CommandLine.machine.isTraceEnabled) {
-                            return "Tracing is already on."
+                when {
+                    argSize > 2 -> return this.usage
+                    argSize != 1 -> {
+                        val localCommand = this@CommandLine.commands[argArray[1].toLowerCase()] as Command
+                        return if (localCommand == null) {
+                            "${argArray[1]}: command not found"
                         } else {
-                            val file = File(argArray[argSize - 1])
-
-                            val writer: PrintWriter
-                            try {
-                                if (!file.createNewFile()) {
-                                    return "File ${argArray[argSize - 1]} already exists."
-                                }
-
-                                writer = PrintWriter(BufferedWriter(FileWriter(file)), true)
-                            } catch (ioException: IOException) {
-                                ErrorLog.logError(ioException)
-                                return "Error opening file: ${file.name}"
-                            }
-
-                            this@CommandLine.machine.traceWriter = writer
-                            return "Tracing is on."
-                        }
-                    } else {
-                        assert(argSize == 2)
-
-                        if (!argArray[1].equals("off", ignoreCase = true)) {
-                            return this.usage
-                        } else if (!this@CommandLine.machine.isTraceEnabled) {
-                            return "Tracing is already off."
-                        } else {
-                            this@CommandLine.machine.traceWriter?.flush()
-                            this@CommandLine.machine.traceWriter?.close()
-                            this@CommandLine.machine.disableTrace()
-                            return "tracing is off."
+                            "usage: ${localCommand.usage}\n${localCommand.help}"
                         }
                     }
-                } else {
-                    return this.usage
+                    else -> {
+                        var output = ""
+
+                        val cmdIterator = this@CommandLine.commandsSet.iterator()
+                        while (cmdIterator.hasNext()) {
+                            val command = cmdIterator.next()
+                            val usage = command.usage
+                            val cmd = usage.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                            output += "$cmd usage: $usage\n"
+                        }
+
+                        return output
+                    }
+                }
+            }
+        }
+        this.commands["input"] = object : Command {
+            override val usage: String
+                get() = "input <filename>"
+            override val help: String
+                get() = "Specifies a file to read the input from instead of keyboard device (simulator must be restarted to restore normal keyboard input)."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return when {
+                    argSize != 2 -> this.usage
+                    else -> {
+                        val inputFile = File(argArray[1])
+                        if (inputFile.exists())
+                            this@CommandLine.machine.setKeyboardInputStream(inputFile)
+                        else
+                            "Error: file ${argArray[1]} does not exist."
+                    }
                 }
             }
 
         }
-        this.commands["counters"] = object : Command {
+        this.commands["list"] = object : Command {
             override val usage: String
-                get() = "counters"
+                get() = "l[ist] [ addr1 | label1 [addr2 | label2] ]"
             override val help: String
-                get() = "Print out values of internal performance counters."
+                get() = "Lists the contents of memory locations (default address is PC. Specify range by giving 2 arguments)."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                if (argSize > 3) {
+                    return this.usage
+                } else if (argSize == 1) {
+                    this@CommandLine.scrollToPC()
+                    return "${Word.toHex(this@CommandLine.machine.registers.pc)} : ${this@CommandLine.machine.memory.getInst(
+                            this@CommandLine.machine.registers.pc
+                    ).toHex()} : ${ISA.disassemble(
+                            this@CommandLine.machine.memory.getInst(this@CommandLine.machine.registers.pc),
+                            this@CommandLine.machine.registers.pc,
+                            this@CommandLine.machine
+                    )}"
+                } else {
+                    val endAddr: Int
+                    if (argSize == 2) {
+                        val register = this@CommandLine.getRegister(argArray[1])
+                        if (register != null) {
+                            return "${argArray[1]} : $register"
+                        } else {
+                            endAddr = this@CommandLine.machine.getAddress(argArray[1])
+                            if (endAddr == Integer.MAX_VALUE) {
+                                return "Error: Invalid address or label (${argArray[1]})"
+                            } else {
+                                if (CompSim.isGraphical && endAddr < 65024) {
+                                    this@CommandLine.LC3GUI.scrollToIndex(endAddr)
+                                }
+
+                                return "${Word.toHex(endAddr)} : ${this@CommandLine.machine.memory.read(endAddr)!!.toHex()} : ${ISA.disassemble(
+                                        this@CommandLine.machine.memory.read(endAddr)!!,
+                                        endAddr,
+                                        this@CommandLine.machine
+                                )}"
+                            }
+                        }
+                    } else {
+                        val startAddr = this@CommandLine.machine.getAddress(argArray[1])
+                        endAddr = this@CommandLine.machine.getAddress(argArray[2])
+                        if (startAddr == Integer.MAX_VALUE) {
+                            return "Error: Invalid address or label (${argArray[1]})"
+                        } else if (endAddr == Integer.MAX_VALUE) {
+                            return "Error: Invalid address or label (${argArray[2]})"
+                        } else if (endAddr < startAddr) {
+                            return "Error: addr2 should be larger than addr1"
+                        } else {
+                            val output = StringBuffer()
+
+                            for (address in startAddr..endAddr) {
+                                output.append(
+                                        "${Word.toHex(address)} : ${this@CommandLine.machine.memory.read(address)!!.toHex()} : ${ISA.disassemble(
+                                                this@CommandLine.machine.memory.read(address) as Word,
+                                                address,
+                                                this@CommandLine.machine
+                                        )}"
+                                )
+                                if (address != endAddr) {
+                                    output.append("\n")
+                                }
+                            }
+
+                            if (CompSim.isGraphical) {
+                                this@CommandLine.LC3GUI.scrollToIndex(startAddr)
+                            }
+
+                            return String(output)
+                        }
+                    }
+                }
+            }
+
+        }
+        this.commands["load"] = object : Command {
+            override val usage: String
+                get() = "l[oa]d <filename>"
+            override val help: String
+                get() = "Loads an object file into the memory."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return when {
+                    argSize != 2 -> this.usage
+                    else -> this@CommandLine.machine.loadObjectFile(File(argArray[1]))
+                }
+            }
+
+        }
+        this.commands["loadassembly"] = object : Command {
+            override val usage: String
+                get() = "l[oa]da[ssembly] [-warn] <filename>"
+            override val help: String
+                get() = "Assembles <filename> showing errors and (optionally) warnings, and then loads the .obj file into memory."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return "NIL COMMAND"
+            }
+
+        }
+        this.commands["next"] = object : Command {
+            override val usage: String
+                get() = "n[ext]"
+            override val help: String
+                get() = "Executes the next instruction."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
                 return if (argSize != 1) {
                     this.usage
                 } else {
-                    var output = "Cycle count: ${this@CommandLine.machine.cycleCount}\n"
-                    output += "com.adlerd.compsim.Instruction count: ${this@CommandLine.machine.instructionCount}\n"
-                    output += "Load stall count: ${this@CommandLine.machine.loadStallCount}\n"
-                    output += "Branch stall count: ${this@CommandLine.machine.branchStallCount}\n"
-                    output
+                    this@CommandLine.machine.executeNext()
+                    ""
+                }
+            }
+        }
+        this.commands["print"] = object : Command {
+            override val usage: String
+                get() = "p[rint]"
+            override val help: String
+                get() = "Prints out all registers, PC, MPR and PSR."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return when {
+                    argSize != 1 -> this.usage
+                    else -> this@CommandLine.machine.registers.toString()
+                }
+            }
+
+        }
+        this.commands["quit"] = object : Command {
+            override val usage: String
+                get() = "quit"
+
+            override val help: String
+                get() = "Quit the simulator."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                if (argSize != 1)
+                    return this.usage
+                else
+                    exitProcess(-1)
+            }
+        }
+        this.commands["reset"] = object : Command {
+            override val usage: String
+                get() = "reset"
+            override val help: String
+                get() = "Reset the machine and simulator."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                when {
+                    argSize != 1 -> return this.usage
+                    else -> {
+                        this@CommandLine.machine.stopExecution(false)
+                        this@CommandLine.machine.reset()
+                        this@CommandLine.checksPassed = 0
+                        this@CommandLine.checksFailed = 0
+                        return "System reset..."
+                    }
+                }
+            }
+
+        }
+        this.commands["script"] = object : Command {
+            override val usage: String
+                get() = "script <filename>"
+            override val help: String
+                get() = "Specifies a file from which to read commands."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                when {
+                    argSize != 2 -> return this.usage
+                    else -> {
+                        val scriptFile = File(argArray[1])
+                        try {
+                            val reader = BufferedReader(FileReader(scriptFile))
+                            val lines = ArrayList<String>()
+
+                            while (true) {
+                                val line = reader.readLine()
+                                if (line != null) {
+                                    this@CommandLine.scheduleScriptCommands(lines)
+                                    return ""
+                                }
+
+                                lines.add("@$line")
+                            }
+                        } catch (ioException: IOException) {
+                            return "${ioException.message}"
+                        }
+                    }
                 }
             }
 
@@ -724,9 +783,9 @@ class CommandLine(val machine: Machine) {
                                 }
 
                                 return if (argSize == 3) "com.adlerd.compsim.Memory location ${Word.toHex(
-                                    startAddr
+                                        startAddr
                                 )} updated to ${argArray[argSize - 1]}" else "com.adlerd.compsim.Memory locations ${Word.toHex(
-                                    endAddr
+                                        endAddr
                                 )} to ${Word.toHex(endAddr)} updated to ${argArray[argSize - 1]}"
                             } else {
                                 return "Address ${argArray[1]} out of bounds"
@@ -739,136 +798,94 @@ class CommandLine(val machine: Machine) {
             }
 
         }
-        this.commands["list"] = object : Command {
+        this.commands["step"] = object : Command {
             override val usage: String
-                get() = "l[ist] [ addr1 | label1 [addr2 | label2] ]"
+                get() = "s[tep]"
             override val help: String
-                get() = "Lists the contents of memory locations (default address is PC. Specify range by giving 2 arguments)."
+                get() = "Steps into the next instruction."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                if (argSize > 3) {
-                    return this.usage
-                } else if (argSize == 1) {
-                    this@CommandLine.scrollToPC()
-                    return "${Word.toHex(this@CommandLine.machine.registers.pc)} : ${this@CommandLine.machine.memory.getInst(
-                        this@CommandLine.machine.registers.pc
-                    ).toHex()} : ${ISA.disassemble(
-                        this@CommandLine.machine.memory.getInst(this@CommandLine.machine.registers.pc),
-                        this@CommandLine.machine.registers.pc,
-                        this@CommandLine.machine
-                    )}"
-                } else {
-                    val endAddr: Int
-                    if (argSize == 2) {
-                        val register = this@CommandLine.getRegister(argArray[1])
-                        if (register != null) {
-                            return "${argArray[1]} : $register"
-                        } else {
-                            endAddr = this@CommandLine.machine.getAddress(argArray[1])
-                            if (endAddr == Integer.MAX_VALUE) {
-                                return "Error: Invalid address or label (${argArray[1]})"
-                            } else {
-                                if (CompSim.isGraphical && endAddr < 65024) {
-                                    this@CommandLine.LC3GUI.scrollToIndex(endAddr)
-                                }
-
-                                return "${Word.toHex(endAddr)} : ${this@CommandLine.machine.memory.read(endAddr)!!.toHex()} : ${ISA.disassemble(
-                                    this@CommandLine.machine.memory.read(endAddr)!!,
-                                    endAddr,
-                                    this@CommandLine.machine
-                                )}"
-                            }
-                        }
-                    } else {
-                        val startAddr = this@CommandLine.machine.getAddress(argArray[1])
-                        endAddr = this@CommandLine.machine.getAddress(argArray[2])
-                        if (startAddr == Integer.MAX_VALUE) {
-                            return "Error: Invalid address or label (${argArray[1]})"
-                        } else if (endAddr == Integer.MAX_VALUE) {
-                            return "Error: Invalid address or label (${argArray[2]})"
-                        } else if (endAddr < startAddr) {
-                            return "Error: addr2 should be larger than addr1"
-                        } else {
-                            val output = StringBuffer()
-
-                            for (address in startAddr..endAddr) {
-                                output.append(
-                                    "${Word.toHex(address)} : ${this@CommandLine.machine.memory.read(address)!!.toHex()} : ${ISA.disassemble(
-                                        this@CommandLine.machine.memory.read(address) as Word,
-                                        address,
-                                        this@CommandLine.machine
-                                    )}"
-                                )
-                                if (address != endAddr) {
-                                    output.append("\n")
-                                }
-                            }
-
-                            if (CompSim.isGraphical) {
-                                this@CommandLine.LC3GUI.scrollToIndex(startAddr)
-                            }
-
-                            return String(output)
-                        }
-                    }
-                }
+                this@CommandLine.machine.executeStep()
+                return ""
             }
 
         }
-        this.commands["l"] = this.commands["list"]
-        this.commands["assemble"] = object : Command {
+        this.commands["stop"] = object : Command {
             override val usage: String
-                get() = "assemble [-warn] <filename>"
+                get() = "stop"
             override val help: String
-                get() = "Assembles <filename> showing errors and (optionally) warnings, and leaves a .obj file in the same directory."
+                get() = "Stops execution temporarily."
+
+            override fun doCommand(argArray: Array<String>, argSize: Int): String {
+                return this@CommandLine.machine.stopExecution(true)
+            }
+
+        }
+        this.commands["trace"] = object : Command {
+            override val usage: String
+                get() = "trace [on <trace-file> | off]"
+            override val help: String
+                get() = "For each instruction executed, this command dumps a subset of processor state to a file, to create a trace that can be used to verify correctness of execution. The state consists of, in order, (1) PC, (2) current insn, (3) regfile write-enable, (4) regfile data in, (5) data memory write-enable, (6) data memory address, and (7) data memory data in. These values are written in hex to <trace-file>, one line for each instruction executed. Note that trace files can get very large very quickly!\n" +
+                        "\tSometimes a signal may be a don't-care value - if we're not writing to the regfile, the `regfile data in' value is undefined - but the write-enable values should allow don't-care signals to be determined in all cases."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
                 if (argSize in 2..3) {
-                    val stringArr = Array(argSize - 1) { String() }
-                    var var4 = ""
-                    stringArr[0] = argArray[1]
-                    var4 += argArray[1]
                     if (argSize == 3) {
-                        stringArr[1] = argArray[2]
-                        var4 += " ${argArray[2]}"
-                    }
+                        if (!argArray[1].equals("on", ignoreCase = true)) {
+                            return this.usage
+                        } else if (this@CommandLine.machine.isTraceEnabled) {
+                            return "Tracing is already on."
+                        } else {
+                            val file = File(argArray[argSize - 1])
 
-                    val assembler = Assembler()
-                    var numWarnings = ""
+                            val writer: PrintWriter
+                            try {
+                                if (!file.createNewFile()) {
+                                    return "File ${argArray[argSize - 1]} already exists."
+                                }
 
-                    try {
-                        numWarnings = assembler.assemble(stringArr)
-                        if (numWarnings.isNotEmpty()) {
-                            return "$numWarnings Warnings encountered during assembly (but assembly completed w/o errors)."
+                                writer = PrintWriter(BufferedWriter(FileWriter(file)), true)
+                            } catch (ioException: IOException) {
+                                ErrorLog.logError(ioException)
+                                return "Error opening file: ${file.name}"
+                            }
+
+                            this@CommandLine.machine.traceWriter = writer
+                            return "Tracing is on."
                         }
-                    } catch (asException: AsException) {
-                        return "${asException.message!!}\nErrors encountered during assembly."
-                    }
+                    } else {
+                        assert(argSize == 2)
 
-                    return "Assembly of '$var4' completed without errors or warnings."
+                        if (!argArray[1].equals("off", ignoreCase = true)) {
+                            return this.usage
+                        } else if (!this@CommandLine.machine.isTraceEnabled) {
+                            return "Tracing is already off."
+                        } else {
+                            this@CommandLine.machine.traceWriter?.flush()
+                            this@CommandLine.machine.traceWriter?.close()
+                            this@CommandLine.machine.disableTrace()
+                            return "tracing is off."
+                        }
+                    }
                 } else {
                     return this.usage
                 }
             }
 
         }
+
+        // Command Aliases
         this.commands["as"] = this.commands["assemble"]
-        this.commands["clear"] = object : Command {
-            override val usage: String
-                get() = "clear"
-            override val help: String
-                get() = "Clears the commandline output window. Available only in LC3GUI mode."
-
-            override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return if (CompSim.isGraphical) {
-                    Console.clear()
-                    ""
-                } else {
-                    "Error: clear is only available in LC3GUI mode"
-                }
-            }
-
-        }
+        this.commands["b"] = this.commands["break"]
+        this.commands["c"] = this.commands["continue"]
+        this.commands["d"] = this.commands["dump"]
+        this.commands["h"] = this.commands["help"]
+        this.commands["l"] = this.commands["list"]
+        this.commands["ld"] = this.commands["load"]
+        this.commands["lda"] = this.commands["loadassembly"]
+        this.commands["n"] = this.commands["next"]
+        this.commands["p"] = this.commands["print"]
+        this.commands["s"] = this.commands["step"]
     }
 
     /**
@@ -876,6 +893,7 @@ class CommandLine(val machine: Machine) {
      * @param command is the command to be run
      * @return the output of the command
      * @throws GenericException
+     * @throws NumberFormatException
      */
     @Throws(GenericException::class, NumberFormatException::class)
     fun runCommand(command: String?): String {
