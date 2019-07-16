@@ -269,7 +269,7 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
     }
 
     companion object {
-        val MEM_SIZE = 65536
+        val MEM_SIZE = 65535
         val BEGIN_DEVICE_REGISTERS = 65024
         val KBSR = 65024
         val KBDR = 65026
