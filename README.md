@@ -1,7 +1,7 @@
 <!-- HEADER -->
 <h1 align="center">
   <br>
-    <a href=""><img src="src/main/resources/img/github/CompSimIcon.png" alt="CompSim Icon" width="200"></a>
+    <a href=""><img src="src/main/resources/img/github/CompSimIcon.svg" alt="CompSim Icon" width="200"></a>
   <br>
     CompSim
   <br>
@@ -34,9 +34,13 @@
 </p>
 
 <!-- SCREENSHOT -->
-<h2 align="center">
-  <a href=""><img src="src/main/resources/img/github/CompSim100Aplha.png" alt="CompSim v1.0.0 Alpha Screenshot" width="1000"></a>
-</h2>
+<h4 align="center">
+  <br>
+    <a href=""><img src="src/main/resources/img/github/CompSim100Alpha.png" alt="CompSim Alpha Screenshot"></a>
+  <br>
+    Screenshot of CompSim Alpha v1.0.0 running on Windows
+  <br>
+</h4>
 
 
 ## Features
