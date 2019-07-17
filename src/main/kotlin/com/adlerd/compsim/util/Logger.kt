@@ -63,7 +63,7 @@ object Logger {
      * TODO: Fix line number issue
      */
     inline fun debugln(message: Any?, classObject: Class<out Any>) {
-        print(
+        println(
             log(
                 "[ ${getTime()} DEBUG ]: (${classObject.name.split(
                     '.'
