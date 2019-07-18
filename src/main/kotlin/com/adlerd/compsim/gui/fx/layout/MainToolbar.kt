@@ -10,15 +10,15 @@ import javafx.scene.control.Tooltip
 
 class MainToolbar(machine: Machine): ToolBar() {
 
-    val openBtn = ToolbarButton("openBtn", Tooltip("Open"))
-    val saveBtn = ToolbarButton("saveBtn", Tooltip("Save"))
-    val backBtn = ToolbarButton("backBtn", Tooltip("Back"))
-    val forwardBtn = ToolbarButton("forwardBtn", Tooltip("Forward"))
-    val runBtn = ToolbarButton("runBtn", Tooltip("Play"))
-    val debugBtn = ToolbarButton("debugBtn", Tooltip("Debug"))
-    val stopBtn = ToolbarButton("stopBtn", Tooltip("Stop"))
-    val searchBtn = ToolbarButton("searchBtn", Tooltip("Search"))
-    val runComboBox = ToolbarComboBox("Select Project...")
+    private val openBtn = ToolbarButton("openBtn", Tooltip("Open"))
+    private val saveBtn = ToolbarButton("saveBtn", Tooltip("Save"))
+    private val backBtn = ToolbarButton("backBtn", Tooltip("Back"))
+    private val forwardBtn = ToolbarButton("forwardBtn", Tooltip("Forward"))
+    private val runBtn = ToolbarButton("runBtn", Tooltip("Play"))
+    private val debugBtn = ToolbarButton("debugBtn", Tooltip("Debug"))
+    private val stopBtn = ToolbarButton("stopBtn", Tooltip("Stop"))
+    private val findBtn = ToolbarButton("findBtn", Tooltip("Find"))
+    private val runComboBox = ToolbarComboBox("Select Project...")
 
     init {
         this.minHeight = 32.0
@@ -32,13 +32,13 @@ class MainToolbar(machine: Machine): ToolBar() {
         runBtn.isDisable = false
         debugBtn.isDisable = false
         stopBtn.isDisable = true
-        searchBtn.isDisable = false
+        findBtn.isDisable = false
         runComboBox.isDisable = true
 
         this.items.addAll(openBtn, saveBtn,
             ToolbarSeparator(), backBtn, forwardBtn,
             ToolbarSeparator(), runComboBox, runBtn, debugBtn, stopBtn,
-            ToolbarSeparator(), searchBtn)
+            ToolbarSeparator(), findBtn)
 
         openBtn.setOnAction {
             infoln("Open File Button")
@@ -68,7 +68,7 @@ class MainToolbar(machine: Machine): ToolBar() {
             infoln("Stop Execution Button")
         }
 
-        searchBtn.setOnAction {
+        findBtn.setOnAction {
             infoln("Search Button")
         }
     }
