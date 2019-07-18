@@ -18,13 +18,13 @@ import javax.swing.SwingUtilities
 
 object CompSim {
     const val TITLE = "CompSim"
-    const val VERSION = "1.0.0 - Alpha"
+    const val VERSION = "0.2.0 - Alpha"
     var isGraphical = true
     var isSwing = false
-    var isFXML = false
-    private var isPipelined = false
     var isLC3 = true
     var isP37X = false
+    private var isFXML = false
+    private var isPipelined = false
 
     val isa: String?
         get() = if (isLC3) {
@@ -41,12 +41,12 @@ object CompSim {
     private fun printUsage() {
         println("\nUsage: java CompSim [-lc3] [-p37x] [-pipeline] [-t | -fxml | -swing] [-s <script>]")
         println("  -lc3 : simulate the LC-3 ISA")
-        println("  -fxml : launch experimental FXML GUI")
         println("  -p37x : simulate the P37X ISA")
         println("  -pipeline : simulate a 5-stage fully-bypassed pipeline")
         println("  -t : start in command-line mode")
-        println("  -s script : run 'script' from a script file")
+        println("  -fxml : launch experimental FXML GUI")
         println("  -swing: launch the older Swing/AWT GUI")
+        println("  -s script : run 'script' from a script file")
     }
 
     @JvmStatic
@@ -118,6 +118,7 @@ object CompSim {
                     else -> {
                         infoln("Loading JavaFX graphical interface")
                         Application.launch(CompSimGUI::class.java)
+//                        launch<CompSimTFX>(args)
                         infoln("GUI closed...")
                     }
                 }
