@@ -5,8 +5,8 @@
 
 
   <groupId>com.adlerd.compsim</groupId>
-<artifactId>CompSim</artifactId>
-  <version>1.0.0.0</version>
+  <artifactId>CompSim</artifactId>
+  <version>0.2.0.0</version>
 
 
   <properties>
@@ -16,8 +16,8 @@
     <resources>src/main/resources</resources>
     <sources>src/main/kotlin</sources>
 <!--    <sources>src/test/kotlin</sources>-->
-    <icon.windows>${resources}/tc4_logo.ico</icon.windows>
-    <icon.macos>${resources}/tc4_logo.icns</icon.macos>
+    <icon.windows>${resources}/CompSim.ico</icon.windows>
+<!--    <icon.macos>${resources}/CompSimLogo.icns</icon.macos>-->
   </properties>
 
 
@@ -159,7 +159,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
         <executions>
           <execution>
             <id>make-assembly</id>
@@ -193,8 +193,8 @@
             </goals>
             <configuration>
               <headerType>gui</headerType>
-              <jar>${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar</jar>
-              <outfile>${project.build.directory}/${artifactId}-${version}.exe</outfile>
+              <jar>${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+              <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
               <downloadUrl>http://java.com/download</downloadUrl>
               <classPath>
                 <mainClass>${main.class}</mainClass>
@@ -203,20 +203,20 @@
               <!--<icon>src/main/resources/tc4_logo.ico</icon>-->
               <icon>${icon.windows}</icon>
               <jre>
-                <minVersion>1.7.0</minVersion>
+                <minVersion>1.8.0</minVersion>
                 <jdkPreference>preferJre</jdkPreference>
               </jre>
               <versionInfo>
-                <fileVersion>1.0.0.0</fileVersion>
+                <fileVersion>${project.version}</fileVersion>
                 <txtFileVersion>${project.version}</txtFileVersion>
                 <fileDescription>${project.name}</fileDescription>
-                <copyright>2019 Onyxlabs</copyright>
-                <productVersion>1.0.0.0</productVersion>
-                <txtProductVersion>1.0.0.0</txtProductVersion>
+                <copyright>2019 Dan Adler</copyright>
+                <productVersion>${project.version}</productVersion>
+                <txtProductVersion>${project.version}</txtProductVersion>
                 <productName>${project.name}</productName>
                 <companyName>com.adlerd.tc</companyName>
                 <internalName>tc4</internalName>
-                <originalFilename>${artifactId}.exe</originalFilename>
+                <originalFilename>${project.artifactId}.exe</originalFilename>
               </versionInfo>
             </configuration>
           </execution>
