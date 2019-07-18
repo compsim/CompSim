@@ -50,6 +50,19 @@
   -fx-background-position: center;
 }
 
+#newBtn {
+  -fx-background-image: url(/themes/light/icons/file.png);
+  -fx-background-size: 16px 16px;
+  -fx-min-width: 24px;
+  -fx-pref-width: 24px;
+  -fx-max-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-height: 24px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
 #openBtn {
   -fx-background-image: url(/themes/light/icons/open.png);
   -fx-background-size: 16px 16px;
