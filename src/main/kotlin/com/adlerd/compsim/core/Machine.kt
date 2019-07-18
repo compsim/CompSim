@@ -130,21 +130,21 @@ open class Machine : Runnable {
     }
 
     fun loadObjectFile(objectFile: File): String {
-        val var2 = ByteArray(2)
-        val var4 = objectFile.path
-        if (!var4.endsWith(".obj")) {
-            return "Error: object filename '$var4' does not end with .obj"
+        val fileHeader = ByteArray(2)
+        val path = objectFile.path
+        if (!path.endsWith(".obj")) {
+            return "Error: object filename '$path' does not end with .obj"
         } else {
-            var var3: String
+            var result: String
             try {
-                val var5 = FileInputStream(objectFile)
-                var5.read(var2)
-                var var6 = Word.convertByteArray(var2[0], var2[1])
+                val inputStream = FileInputStream(objectFile)
+                inputStream.read(fileHeader)
+                var var6 = Word.convertByteArray(fileHeader[0], fileHeader[1])
 
                 while (true) {
-                    if (var5.read(var2) != 2) {
-                        var5.close()
-                        var3 = "Loaded object file '$var4'"
+                    if (inputStream.read(fileHeader) != 2) {
+                        inputStream.close()
+                        result = "Loaded object file '$path'"
                         break
                     }
 
@@ -155,21 +155,21 @@ open class Machine : Runnable {
                         this.inverseTable.remove(var7)
                     }
 
-                    this.memory.write(var6, Word.convertByteArray(var2[0], var2[1]))
+                    this.memory.write(var6, Word.convertByteArray(fileHeader[0], fileHeader[1]))
                     ++var6
                 }
             } catch (var9: IOException) {
-                return "Error: Could not load object file '$var4'"
+                return "Error: Could not load object file '$path'"
             }
 
-            var var10 = var4
-            if (var4.endsWith(".obj")) {
-                var10 = var4.substring(0, var4.length - 4)
+            var var10 = path
+            if (path.endsWith(".obj")) {
+                var10 = path.substring(0, path.length - 4)
             }
 
             var10 = "$var10.sym"
-            var3 = "$var3\n${this.loadSymbolTable(File(var10))}"
-            return var3
+            result = "$result\n${this.loadSymbolTable(File(var10))}"
+            return result
         }
     }
 
