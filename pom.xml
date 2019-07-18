@@ -28,6 +28,12 @@
       <artifactId>cssfx</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <!--RichTextFX-->
+    <dependency>
+      <groupId>org.fxmisc.richtext</groupId>
+      <artifactId>richtextfx</artifactId>
+      <version>	0.10.1</version>
+    </dependency>
     <!--Kotlin-->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
