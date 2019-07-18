@@ -1,7 +1,7 @@
 <!-- HEADER -->
 <h1 align="center">
   <br>
-    <a href=""><img src="src/main/resources/img/github/CompSimIcon.svg" alt="CompSim Icon" width="200"></a>
+    <a href=""><img src="src/main/resources/github/CompSimIcon.svg" alt="CompSim Icon" width="200"></a>
   <br>
     CompSim
   <br>
@@ -40,7 +40,7 @@
 <!-- SCREENSHOT -->
 <h4 align="center">
   <br>
-    <a href=""><img src="src/main/resources/img/github/CompSim100Alpha.png" alt="CompSim Alpha Screenshot"></a>
+    <a href=""><img src="src/main/resources/github/CompSim100Alpha.png" alt="CompSim Alpha Screenshot"></a>
   <br>
     Screenshot of CompSim Alpha v1.0.0 running on Windows
   <br>
