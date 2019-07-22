@@ -49,7 +49,7 @@
 
 ## Features
 
-  * Original Java source rewritten i Kotlin for simplification and speed
+  * Original Java source rewritten in Kotlin for simplification and speed
   * GUI changed from Swing/AWT to JavaFX
   * Added new commands to simplify common tasks
   * Built in editor to streamline the process of writing and debugging source code
