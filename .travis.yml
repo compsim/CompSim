@@ -1,4 +1,2 @@
 language: java
-java:
-  - 1.8
-  - 1.11
+sudo: false
