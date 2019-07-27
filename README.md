@@ -20,9 +20,9 @@
     <img src="https://img.shields.io/github/license/dadler64/CompSim.svg"
           alt="License">
   </a>
-  <a href="https://www.codacy.com/app/daadler64/CompSim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dadler64/CompSim&amp;utm_campaign=Badge_Grade">
-    <img src="https://api.codacy.com/project/badge/Grade/608f20410d8d4c8cad81941748a28e07"
-         alt="Codacy"/>
+  <a href="https://www.codacy.com/app/dadler64/CompSim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dadler64/CompSim&amp;utm_campaign=Badge_Grade">
+    <img src="https://api.codacy.com/project/badge/Grade/a044e5a268b14f6294c0f6902e229a07"
+          alt="Codacy Score>
   </a>
   <a href="https://travis-ci.com/dadler64/CompSim">
     <img src="https://travis-ci.com/dadler64/CompSim.svg?branch=master"
