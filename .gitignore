@@ -1,11 +1,22 @@
+# IGNORED PROJECT FOLDERS
+.idea
+target
+test
+
+# IGNORED FILES AND FILE EXTENSIONS
 *.class
 *.log
 *.jar
 *.zip
-.idea
+*.tar.gz
+*.rar
+hs_err_pid*
 *.iml
-out
-.gradle
-!gradle-wrapper.jar
+*.exe
+*.asm
+*.obj
+*.sym
+*.xml
 
-test/
+# EXCEPTIONS
+!pom.xml
