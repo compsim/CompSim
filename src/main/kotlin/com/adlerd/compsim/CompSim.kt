@@ -14,6 +14,7 @@ import javafx.application.Application
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.io.Reader
 import javax.swing.SwingUtilities
 
 object CompSim {
@@ -124,7 +125,7 @@ object CompSim {
                 }
             } else {
                 try {
-                    val reader = BufferedReader(InputStreamReader(System.`in`))
+                    val reader = BufferedReader(InputStreamReader(System.`in`) as Reader)
                     var consoleOutput: String
 
                     while (true) {

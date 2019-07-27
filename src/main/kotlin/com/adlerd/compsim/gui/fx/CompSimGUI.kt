@@ -3,6 +3,7 @@ package com.adlerd.compsim.gui.fx
 import com.adlerd.compsim.CompSim
 import com.adlerd.compsim.core.Console
 import com.adlerd.compsim.core.Machine
+import com.adlerd.compsim.core.Memory.Companion.MEM_SIZE
 import com.adlerd.compsim.gui.fx.layout.ConsolePane
 import com.adlerd.compsim.gui.fx.layout.MainToolbar
 import com.adlerd.compsim.gui.fx.layout.tabs.DebuggerTab
@@ -69,7 +70,7 @@ class CompSimGUI: Application() {
         menuBar = initMenuBar()
         menuBar.isUseSystemMenuBar = true
 
-        programTabs.tabs.addAll(editorTab, debuggerTab)
+        programTabs.tabs.addAll(debuggerTab, editorTab)
 
         root.top = VBox(menuBar, mainToolbar)
         root.center = programTabs
@@ -77,18 +78,18 @@ class CompSimGUI: Application() {
 
 
         window.scene = Scene(root, 1024.0, 768.0)
-        window.scene.stylesheets.add(CompSimGUI::class.java.getResource("/themes/light/icons.css").toExternalForm())
+//        window.scene.stylesheets.add(CompSimGUI::class.java.getResource("/theme/light/icons.css").toExternalForm())
         window.minWidth = 1024.0
         window.minHeight = 768.0
         window.title = "${CompSim.version} JavaFX"
-        window.icons.add(Image(CompSimGUI::class.java.getResource("/github/CompSimIcon.png").toExternalForm()))
+//        window.icons.add(Image(CompSimGUI::class.java.getResource("/github/CompSimIcon.png").toExternalForm()))
 
         // Show window
         window.show()
 
         Console.registerConsole(this.consolePane)
 
-//        resetMemoryPane(MEM_SIZE)
+        resetMemoryPane(MEM_SIZE)
 //        updateMemoryRow(4, true, "x6969", ".String Text 6969")
 //        updateMemoryRow(5, true, "x6969", ".String Text 6969")
     }
@@ -115,10 +116,10 @@ class CompSimGUI: Application() {
         bar.useSystemMenuBarProperty()
 
         // File menu
-        openFileItem.graphic = ImageView(Image(CompSimGUI::class.java.getResource("/themes/light/icons/open.png").toExternalForm(), MENU_ICON_SIZE, MENU_ICON_SIZE, true, false))
+//        openFileItem.graphic = ImageView(Image(CompSimGUI::class.java.getResource("/themes/light/icons/open.png").toExternalForm(), MENU_ICON_SIZE, MENU_ICON_SIZE, true, false))
         openFileItem.setOnAction { editorTab.openFile() }
         closeFileItem.setOnAction { this.editorTab.fileTabPane.tabs.remove(this.editorTab.currentFile) }
-        saveItem.graphic = ImageView(Image(CompSimGUI::class.java.getResource("/themes/light/icons/save.png").toExternalForm(), MENU_ICON_SIZE, MENU_ICON_SIZE, true, false))
+//        saveItem.graphic = ImageView(Image(CompSimGUI::class.java.getResource("/themes/light/icons/save.png").toExternalForm(), MENU_ICON_SIZE, MENU_ICON_SIZE, true, false))
         saveItem.isDisable = true
         saveItem.setOnAction { editorTab.saveFile() }
         saveAsItem.isDisable = true
