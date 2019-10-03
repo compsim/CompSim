@@ -2,8 +2,8 @@ package com.compsim.core
 
 import AsException
 import IllegalInstructionException
-import com.adlerd.compsim.util.SymbolTable
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.util.SymbolTable
+import com.compsim.util.exceptions.IllegalMemAccessException
 
 abstract class InstructionDef {
     lateinit var opcode: String

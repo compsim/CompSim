@@ -1,9 +1,9 @@
 package com.compsim.gui.fx.layout.tabs
 
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.gui.fx.layout.DevicesPane
-import com.adlerd.compsim.gui.fx.layout.MemoryPane
-import com.adlerd.compsim.gui.fx.layout.RegistersPane
+import com.compsim.core.Machine
+import com.compsim.gui.fx.layout.DevicesPane
+import com.compsim.gui.fx.layout.MemoryPane
+import com.compsim.gui.fx.layout.RegistersPane
 import javafx.scene.control.Tab
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Priority

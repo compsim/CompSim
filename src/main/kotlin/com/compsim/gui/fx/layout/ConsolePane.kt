@@ -1,10 +1,11 @@
 package com.compsim.gui.fx.layout
 
-import com.adlerd.compsim.core.CommandLine
-import com.adlerd.compsim.core.Console
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.util.exceptions.GenericException
+import com.compsim.core.CommandLine
+import com.compsim.core.Console
+import com.compsim.core.Machine
+import com.compsim.util.exceptions.GenericException
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
@@ -15,15 +16,15 @@ import javafx.scene.layout.VBox
 import kotlin.system.exitProcess
 
 class ConsolePane(private val machine: Machine): TitledPane(), Console.PrintableConsole {
-    private val consoleVBox = VBox()
     private val commandLine: CommandLine
+    private val consoleVBox = VBox()
     private val inputField = TextField()
     private val outputArea = TextArea()
 
     init {
         this.text = "Console"
         this.isCollapsible = true
-        this.isExpanded = false
+        this.isExpanded = true
         this.isAnimated = true
 
 //        this.minHeight = 200.0
@@ -70,30 +71,32 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
                 inputField.text = commandLine.nextHistory
             }
         }
-        // Add event filter to consume the mouse click making focusing on the text area impossible
+        // Add event filter to consume the mouse click and focus on the input text field thus
+        // making focusing on the output text area impossible.
         outputArea.addEventFilter(MouseEvent.MOUSE_PRESSED) { event ->
-//            infoln("Mouse click in command output window consumed")
+            inputField.requestFocus()
             event.consume()
         }
+
         outputArea.isFocusTraversable = false
         outputArea.isEditable = false
         outputArea.isWrapText = false
 //        outputArea.minHeight = 150.0
 //        outputArea.prefHeight = 150.0
-        consoleVBox.children.addAll(
-                outputArea
-                ,
-                inputField
-        )
 
+        // Console pane contents
+        consoleVBox.children.addAll(outputArea, inputField)
         this.content = consoleVBox
-//        this.spacing = 4.0
     }
 
 
     override fun print(message: String) {
         outputArea.appendText("$message\n")
 //        CommandOutputWindowPane.writeToConsole()
+    }
+
+    fun printSeq(p0: String?, p1: MutableList<Node>?) {
+
     }
 
     override fun clear() {
@@ -113,7 +116,7 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
 //                if (str.isNotBlank()) {
 //                    writeToConsole(str)
 //                } else {
-//                    errorln("Failed to write to com.adlerd.compsim.Console!")
+//                    errorln("Failed to write to com.compsim.Console!")
 //                }
 //            } catch (localCustomException: CustomException) {
 //                writeToConsole(localCustomException.message.toString())

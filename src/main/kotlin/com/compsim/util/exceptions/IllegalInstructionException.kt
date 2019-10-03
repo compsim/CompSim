@@ -1,4 +1,4 @@
-import com.adlerd.compsim.util.exceptions.GenericException
+import com.compsim.util.exceptions.GenericException
 
 class IllegalInstructionException(message: String) : GenericException(message) {
 

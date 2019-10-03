@@ -1,6 +1,6 @@
 package com.compsim.util.exceptions
 
-import com.adlerd.compsim.core.Word
+import com.compsim.core.Word
 
 class IllegalMemAccessException(private val addr: Int) : GenericException() {
 

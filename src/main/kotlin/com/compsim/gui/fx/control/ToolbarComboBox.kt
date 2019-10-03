@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.control
 
-import com.adlerd.compsim.helpers.Runner
+import com.compsim.helpers.Runner
 import javafx.scene.control.ComboBox
 
 /**

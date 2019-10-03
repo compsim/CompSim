@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout
 
-import com.adlerd.compsim.core.Machine
+import com.compsim.core.Machine
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.Label

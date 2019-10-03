@@ -1,10 +1,10 @@
 package com.compsim.gui.fx.layout
 
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.core.Word
-import com.adlerd.compsim.gui.fx.control.CheckBoxTableCell
-import com.adlerd.compsim.helpers.MemoryRow
-import com.adlerd.compsim.util.Logger.infoln
+import com.compsim.core.Machine
+import com.compsim.core.Word
+import com.compsim.gui.fx.control.CheckBoxTableCell
+import com.compsim.helpers.MemoryRow
+import com.compsim.util.Logger.infoln
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TitledPane
@@ -67,7 +67,7 @@ class MemoryPane(val machine: Machine): TitledPane() {
             valueCol.isSortable = false
             valueCol.cellValueFactory = PropertyValueFactory("valueText")
 
-            // com.adlerd.compsim.Instruction Column
+            // com.compsim.Instruction Column
             val instructionCol = TableColumn<MemoryRow, String>("Instruction")
 //            instructionCol.minWidth = 337.0
 //            instructionCol.prefWidth = Double.MAX_VALUE

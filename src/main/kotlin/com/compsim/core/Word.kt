@@ -1,7 +1,7 @@
 package com.compsim.core
 
 import AsException
-import com.adlerd.compsim.util.exceptions.InternalException
+import com.compsim.util.exceptions.InternalException
 import java.io.BufferedOutputStream
 import java.io.IOException
 import kotlin.experimental.and

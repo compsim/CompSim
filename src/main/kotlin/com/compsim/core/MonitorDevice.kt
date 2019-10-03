@@ -1,7 +1,7 @@
 package com.compsim.core
 
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.util.ErrorLog
+import com.compsim.CompSim
+import com.compsim.util.ErrorLog
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.io.IOException

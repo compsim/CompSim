@@ -1,6 +1,6 @@
 package com.compsim.util
 
-import com.adlerd.compsim.CompSim
+import com.compsim.CompSim
 import java.io.File
 import java.io.IOException
 import java.io.PrintWriter

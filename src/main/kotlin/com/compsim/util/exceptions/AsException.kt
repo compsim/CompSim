@@ -1,4 +1,4 @@
-import com.adlerd.compsim.core.Instruction
+import com.compsim.core.Instruction
 
 class AsException : Exception {
     var instruction: Instruction? = null

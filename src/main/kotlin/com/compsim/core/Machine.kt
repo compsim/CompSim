@@ -1,13 +1,12 @@
 package com.compsim.core
 
 import IllegalInstructionException
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.core.Memory.Companion.MEM_SIZE
-import com.adlerd.compsim.gui.swing.LC3GUI
-import com.adlerd.compsim.helpers.MemoryRow
-import com.adlerd.compsim.util.ErrorLog
-import com.adlerd.compsim.util.exceptions.GenericException
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.CompSim
+import com.compsim.core.Memory.Companion.MEM_SIZE
+import com.compsim.helpers.MemoryRow
+import com.compsim.util.ErrorLog
+import com.compsim.util.exceptions.GenericException
+import com.compsim.util.exceptions.IllegalMemAccessException
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import java.awt.Container
@@ -25,7 +24,6 @@ open class Machine : Runnable {
     val memory: Memory
     val registers: RegisterFile
     val branchPredictor: BranchPredictor
-    var LC3GUI: LC3GUI? = null
     val notifyOnStop: LinkedList<ActionListener> = LinkedList()
     var traceWriter: PrintWriter? = null
     val symbolTable = Hashtable<String, Int>()
@@ -65,9 +63,10 @@ open class Machine : Runnable {
         this.addressToInstructionTable.clear()
         this.memory.reset()
         this.registers.reset()
-        if (this.LC3GUI != null) {
-            this.LC3GUI!!.reset()
-        }
+        // TODO reset gui
+//        if (this.LC3GUI != null) {
+//            this.LC3GUI!!.reset()
+//        }
 
         if (this.isTraceEnabled) {
             this.disableTrace()
@@ -179,14 +178,14 @@ open class Machine : Runnable {
             this.memory.keyBoardDevice.setInputStream(FileInputStream(var1))
             this.memory.keyBoardDevice.setInputMode(KeyboardDevice.SCRIPT_MODE)
             var2 = "Keyboard input file '${var1.path}' enabled"
-            if (this.LC3GUI != null) {
-                this.LC3GUI!!.setTextConsoleEnabled(false)
-            }
+//            if (this.LC3GUI != null) {
+//                this.LC3GUI!!.setTextConsoleEnabled(false)
+//            }
         } catch (var4: FileNotFoundException) {
             var2 = "Could not open keyboard input file '${var1.path}'"
-            if (this.LC3GUI != null) {
-                this.LC3GUI!!.setTextConsoleEnabled(true)
-            }
+//            if (this.LC3GUI != null) {
+//                this.LC3GUI!!.setTextConsoleEnabled(true)
+//            }
         }
 
         return var2
@@ -198,9 +197,10 @@ open class Machine : Runnable {
         this.stopImmediately = false
         this.executePumpedContinues(1)
         this.updateStatusLabel()
-        if (this.LC3GUI != null) {
-            this.LC3GUI!!.scrollToPC(0)
-        }
+        // TODO Scroll to the necessary PC
+//        if (this.LC3GUI != null) {
+//            this.LC3GUI!!.scrollToPC(0)
+//        }
 
     }
 
@@ -225,9 +225,10 @@ open class Machine : Runnable {
         this.stopImmediately = true
         this.clearContinueMode()
         this.updateStatusLabel()
-        if (this.LC3GUI != null) {
-            this.LC3GUI!!.scrollToPC(var1)
-        }
+        // TODO Scroll to the necessary PC
+//        if (this.LC3GUI != null) {
+//            this.LC3GUI!!.scrollToPC(var1)
+//        }
 
         this.memory.fireTableDataChanged()
         if (var2) {
@@ -250,9 +251,10 @@ open class Machine : Runnable {
     fun executePumpedContinues(var1: Int) {
         var var2 = var1
         this.registers.clockMCR = true
-        if (this.LC3GUI != null) {
-            this.LC3GUI!!.setStatusLabelRunning()
-        }
+        // TODO set the status label to running
+//        if (this.LC3GUI != null) {
+//            this.LC3GUI!!.setStatusLabelRunning()
+//        }
 
         while (!this.stopImmediately && var2 > 0) {
             try {
@@ -415,24 +417,25 @@ open class Machine : Runnable {
         try {
             this.executePumpedContinues()
         } catch (genericException: GenericException) {
-            if (this.LC3GUI != null) {
-                genericException.showMessageDialog((null as Container))
-            }
+//            if (this.LC3GUI != null) {
+//                genericException.showMessageDialog((null as Container))
+//            }
             Console.println(genericException.message!!)
         }
 
     }
 
     fun updateStatusLabel() {
-        if (this.LC3GUI != null) {
+//        if (this.LC3GUI != null) {
+        //TODO Set status labels
             if (!this.registers.clockMCR) {
-                this.LC3GUI!!.setStatusLabelHalted()
+//                this.LC3GUI!!.setStatusLabelHalted()
             } else if (this.isContinueMode) {
-                this.LC3GUI!!.setStatusLabelRunning()
+//                this.LC3GUI!!.setStatusLabelRunning()
             } else {
-                this.LC3GUI!!.setStatusLabelSuspended()
+//                this.LC3GUI!!.setStatusLabelSuspended()
             }
-        }
+//        }
 
     }
 

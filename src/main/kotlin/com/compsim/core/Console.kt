@@ -1,7 +1,7 @@
 package com.compsim.core
 
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.util.Logger.infoln
+import com.compsim.CompSim
+import com.compsim.util.Logger.infoln
 import java.util.*
 
 class Console {

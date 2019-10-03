@@ -1,9 +1,10 @@
 package com.compsim.gui.fxml
 
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.gui.fx.CompSimGUI
+import com.compsim.CompSim
+import com.compsim.gui.fx.CompSimGUI
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
+//import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage

@@ -1,6 +1,6 @@
 package com.compsim.core
 
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.util.exceptions.IllegalMemAccessException
 
 class P37X : ISA() {
     public override fun init() {

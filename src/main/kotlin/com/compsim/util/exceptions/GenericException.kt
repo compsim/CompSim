@@ -14,6 +14,6 @@ abstract class GenericException : Exception {
 
     fun showMessageDialog(var1: Container) {
         JOptionPane.showMessageDialog(var1, this.exceptionDescription)
-//        com.adlerd.compsim.Console.println("Exception: " + this.exceptionDescription)
+//        com.compsim.Console.println("Exception: " + this.exceptionDescription)
     }
 }

@@ -1,6 +1,6 @@
 package com.compsim.core
 
-import com.adlerd.compsim.util.ErrorLog
+import com.compsim.util.ErrorLog
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream

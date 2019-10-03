@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout.tabs
 
-import com.adlerd.compsim.util.Logger
+import com.compsim.util.Logger
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.LineNumberFactory

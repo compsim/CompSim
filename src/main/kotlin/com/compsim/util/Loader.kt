@@ -1,11 +1,28 @@
 package com.compsim.util
 
-import com.adlerd.compsim.util.Logger.errorln
+import com.compsim.util.Logger.errorln
 import javafx.scene.image.Image
 import java.lang.NullPointerException
+import java.net.URL
 
 object Loader {
     private const val ERROR_IMAGE = ""
+
+    /**
+     * Super simple function to make loading images slightly easier
+     * @param path path the the desired image (ex. "compsim.ico" -> icon used in the Windows executable)
+     * @return Image object from input
+     */
+    fun loadRes(path: String): String {
+        try {
+            return this::class.java.getResource("/$path").toString()
+        } catch (npe: NullPointerException) {
+            errorln("Failed to locate resource at ${this::class.java.getResource("")}$path")
+        }
+
+        // If image load fails load generic replacement image
+        return ""
+    }
 
     /**
      * Super simple function to make loading images slightly easier

@@ -1,11 +1,11 @@
 package com.compsim.gui.fx.layout.tabs
 
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.gui.fx.control.ToolbarButton
-import com.adlerd.compsim.gui.fx.control.ToolbarSeparator
-import com.adlerd.compsim.util.Logger
-import com.adlerd.compsim.util.Logger.debugln
-import com.adlerd.compsim.util.Logger.errorln
+import com.compsim.core.Machine
+import com.compsim.gui.fx.control.ToolbarButton
+import com.compsim.gui.fx.control.ToolbarSeparator
+import com.compsim.util.Logger
+import com.compsim.util.Logger.debugln
+import com.compsim.util.Logger.errorln
 import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.input.TransferMode

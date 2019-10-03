@@ -1,10 +1,10 @@
 package com.compsim.gui.fx.layout
 
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.gui.fx.control.ToolbarButton
-import com.adlerd.compsim.gui.fx.control.ToolbarComboBox
-import com.adlerd.compsim.gui.fx.control.ToolbarSeparator
-import com.adlerd.compsim.util.Logger.infoln
+import com.compsim.core.Machine
+import com.compsim.gui.fx.control.ToolbarButton
+import com.compsim.gui.fx.control.ToolbarComboBox
+import com.compsim.gui.fx.control.ToolbarSeparator
+import com.compsim.util.Logger.infoln
 import javafx.scene.control.ToolBar
 import javafx.scene.control.Tooltip
 

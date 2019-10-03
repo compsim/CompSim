@@ -1,7 +1,7 @@
 package com.compsim.core
 
 import IllegalInstructionException
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.util.exceptions.IllegalMemAccessException
 
 class LC3 : ISA() {
     public override fun init() {

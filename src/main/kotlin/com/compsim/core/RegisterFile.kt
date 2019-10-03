@@ -1,7 +1,7 @@
 package com.compsim.core
 
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.CompSim
+import com.compsim.util.exceptions.IllegalMemAccessException
 import javax.swing.table.AbstractTableModel
 
 class RegisterFile(private val machine: Machine) : AbstractTableModel() {

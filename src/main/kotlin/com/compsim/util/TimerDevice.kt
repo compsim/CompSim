@@ -1,7 +1,7 @@
 package com.compsim.util
 
-import com.adlerd.compsim.core.KeyboardDevice
-import com.adlerd.compsim.core.Word
+import com.compsim.core.KeyboardDevice
+import com.compsim.core.Word
 
 class TimerDevice {
     private var mode: Int = 0

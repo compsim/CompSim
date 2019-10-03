@@ -1,7 +1,7 @@
 package com.compsim.core
 
 import AsException
-import com.adlerd.compsim.util.SymbolTable
+import com.compsim.util.SymbolTable
 import java.io.*
 import java.util.*
 

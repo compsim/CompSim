@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.control
 
-import com.adlerd.compsim.helpers.MemoryRow
+import com.compsim.helpers.MemoryRow
 import javafx.event.EventHandler
 import javafx.scene.control.TableCell
 import javafx.scene.control.TextField

@@ -2,10 +2,10 @@ package com.compsim.core
 
 import AsException
 import IllegalInstructionException
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.util.SymbolTable
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
-import com.adlerd.compsim.util.exceptions.InternalException
+import com.compsim.CompSim
+import com.compsim.util.SymbolTable
+import com.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.util.exceptions.InternalException
 import java.util.*
 
 open class ISA {

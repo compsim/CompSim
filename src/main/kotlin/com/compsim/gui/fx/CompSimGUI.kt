@@ -1,16 +1,16 @@
 package com.compsim.gui.fx
 
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.core.Console
-import com.adlerd.compsim.core.Machine
-import com.adlerd.compsim.core.Memory.Companion.MEM_SIZE
-import com.adlerd.compsim.gui.fx.layout.ConsolePane
-import com.adlerd.compsim.gui.fx.layout.MainToolbar
-import com.adlerd.compsim.gui.fx.layout.tabs.DebuggerTab
-import com.adlerd.compsim.gui.fx.layout.tabs.EditorTab
-import com.adlerd.compsim.util.Loader
-import com.adlerd.compsim.util.Loader.loadImg
-import com.adlerd.compsim.util.Logger.debugln
+import com.compsim.CompSim
+import com.compsim.core.Console
+import com.compsim.core.Machine
+import com.compsim.core.Memory.Companion.MEM_SIZE
+import com.compsim.gui.fx.layout.ConsolePane
+import com.compsim.gui.fx.layout.MainToolbar
+import com.compsim.gui.fx.layout.tabs.DebuggerTab
+import com.compsim.gui.fx.layout.tabs.EditorTab
+import com.compsim.util.Loader
+import com.compsim.util.Loader.loadImg
+import com.compsim.util.Logger.debugln
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -80,6 +80,7 @@ class CompSimGUI: Application() {
 
         window.scene = Scene(root, 1024.0, 768.0)
 //        window.scene.stylesheets.add(CompSimGUI::class.java.getResource("/icons.css").toString())
+        window.scene.stylesheets.add(Loader.loadRes("icons.css"))
         window.minWidth = 1024.0
         window.minHeight = 768.0
         window.title = "${CompSim.version} JavaFX"

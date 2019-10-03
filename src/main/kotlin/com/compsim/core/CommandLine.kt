@@ -1,10 +1,9 @@
 package com.compsim.core
 
 import AsException
-import com.adlerd.compsim.CompSim
-import com.adlerd.compsim.gui.swing.LC3GUI
-import com.adlerd.compsim.util.ErrorLog
-import com.adlerd.compsim.util.exceptions.GenericException
+import com.compsim.CompSim
+import com.compsim.util.ErrorLog
+import com.compsim.util.exceptions.GenericException
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,7 +20,6 @@ class CommandLine(val machine: Machine) {
     private var checksFailed = 0
     private var checksPassedCumulative = 0
     private var checksFailedCumulative = 0
-    lateinit var LC3GUI: LC3GUI
 
     init {
         // IMPORTANT:
@@ -359,7 +357,7 @@ class CommandLine(val machine: Machine) {
                     this.usage
                 } else {
                     var output = "Cycle count: ${this@CommandLine.machine.cycleCount}\n"
-                    output += "com.adlerd.compsim.Instruction count: ${this@CommandLine.machine.instructionCount}\n"
+                    output += "com.compsim.Instruction count: ${this@CommandLine.machine.instructionCount}\n"
                     output += "Load stall count: ${this@CommandLine.machine.loadStallCount}\n"
                     output += "Branch stall count: ${this@CommandLine.machine.branchStallCount}\n"
                     output
@@ -466,7 +464,7 @@ class CommandLine(val machine: Machine) {
                                 }
 
                                 writer.close()
-                                return "com.adlerd.compsim.Memory dumped."
+                                return "com.compsim.Memory dumped."
                             }
                         } else {
                             return "Address ${argArray[argSize - 2]} out of bounds"
@@ -564,7 +562,8 @@ class CommandLine(val machine: Machine) {
                                 return "Error: Invalid address or label (${argArray[1]})"
                             } else {
                                 if (CompSim.isGraphical && endAddr < 65024) {
-                                    this@CommandLine.LC3GUI.scrollToIndex(endAddr)
+                                    // TODO Scroll to index
+//                                    this@CommandLine.LC3GUI.scrollToIndex(endAddr)
                                 }
 
                                 return "${Word.toHex(endAddr)} : ${this@CommandLine.machine.memory.read(endAddr)!!.toHex()} : ${ISA.disassemble(
@@ -600,7 +599,8 @@ class CommandLine(val machine: Machine) {
                             }
 
                             if (CompSim.isGraphical) {
-                                this@CommandLine.LC3GUI.scrollToIndex(startAddr)
+                                // TODO Scroll to index
+//                              this@CommandLine.LC3GUI.scrollToIndex(startAddr)
                             }
 
                             return String(output)
@@ -710,7 +710,7 @@ class CommandLine(val machine: Machine) {
                     else -> {
                         val scriptFile = File(argArray[1])
                         try {
-                            val reader = BufferedReader(FileReader(scriptFile))
+                            val reader = BufferedReader(FileReader(scriptFile) as Reader)
                             val lines = ArrayList<String>()
 
                             while (true) {
@@ -782,9 +782,9 @@ class CommandLine(val machine: Machine) {
                                     this@CommandLine.machine.memory.write(address, symbol)
                                 }
 
-                                return if (argSize == 3) "com.adlerd.compsim.Memory location ${Word.toHex(
+                                return if (argSize == 3) "com.compsim.Memory location ${Word.toHex(
                                         startAddr
-                                )} updated to ${argArray[argSize - 1]}" else "com.adlerd.compsim.Memory locations ${Word.toHex(
+                                )} updated to ${argArray[argSize - 1]}" else "com.compsim.Memory locations ${Word.toHex(
                                         endAddr
                                 )} to ${Word.toHex(endAddr)} updated to ${argArray[argSize - 1]}"
                             } else {
@@ -955,7 +955,8 @@ class CommandLine(val machine: Machine) {
     fun scrollToPC() {
         if (CompSim.isGraphical) {
             if (CompSim.isSwing) {
-                this.LC3GUI.scrollToPC()
+                // TODO Scroll to PC
+//                this.LC3GUI.scrollToPC()
             } else {
                 // TODO
 //                this.machine.scrollToPC()

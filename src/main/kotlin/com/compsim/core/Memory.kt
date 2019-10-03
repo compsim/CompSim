@@ -1,12 +1,12 @@
 package com.compsim.core
 
-import com.adlerd.compsim.util.TimerDevice
-import com.adlerd.compsim.util.exceptions.IllegalMemAccessException
+import com.compsim.util.TimerDevice
+import com.compsim.util.exceptions.IllegalMemAccessException
 import javax.swing.table.AbstractTableModel
 
 class Memory(private val machine: Machine) : AbstractTableModel() {
     private val memoryArray = Array(65536) { Word() }
-    private val colNames = arrayOf("BP", "Address", "Value", "com.adlerd.compsim.Instruction")
+    private val colNames = arrayOf("BP", "Address", "Value", "com.compsim.Instruction")
     private val nextBreakPoints = BooleanArray(65536)
     private val breakPoints = BooleanArray(65536)
     val keyBoardDevice = KeyboardDevice()
