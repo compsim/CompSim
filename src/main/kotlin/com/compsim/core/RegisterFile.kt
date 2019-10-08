@@ -4,7 +4,7 @@ import com.compsim.CompSim
 import com.compsim.util.exceptions.IllegalMemAccessException
 import javax.swing.table.AbstractTableModel
 
-class RegisterFile(private val machine: Machine) : AbstractTableModel() {
+class RegisterFile(private val controller: Controller) : AbstractTableModel() {
     private val colNames = arrayOf("Register", "Value", "Register", "Value")
     private val PC: Word
     private val MPR: Word
@@ -28,8 +28,8 @@ class RegisterFile(private val machine: Machine) : AbstractTableModel() {
             val var2 = this.PC.value
             this.PC.value = value
             this.fireTableCellUpdated(indRow[8], indCol[8])
-            this.machine.memory.fireTableRowsUpdated(var2, var2)
-            this.machine.memory.fireTableRowsUpdated(value, value)
+            this.controller.memory.fireTableRowsUpdated(var2, var2)
+            this.controller.memory.fireTableRowsUpdated(value, value)
         }
 
     val n: Boolean
@@ -186,9 +186,9 @@ class RegisterFile(private val machine: Machine) : AbstractTableModel() {
                 val var4 = Word.parseNum(var1.toString())
                 if (var2 == 2) {
                     this.pc = var4
-                    if (this.machine.LC3GUI != null) {
-                        this.machine.LC3GUI!!.scrollToPC()
-                    }
+//                    if (this.machine.LC3GUI != null) {
+//                        this.machine.LC3GUI!!.scrollToPC()
+//                    }
                 } else if (var2 == 3) {
                     this.mpr = var4
                 } else if (var2 == 4) {

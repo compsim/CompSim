@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout
 
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.gui.fx.control.ToolbarButton
 import com.compsim.gui.fx.control.ToolbarComboBox
 import com.compsim.gui.fx.control.ToolbarSeparator
@@ -8,16 +8,16 @@ import com.compsim.util.Logger.infoln
 import javafx.scene.control.ToolBar
 import javafx.scene.control.Tooltip
 
-class MainToolbar(machine: Machine): ToolBar() {
+class MainToolbar(controller: Controller): ToolBar() {
 
-    private val openBtn = ToolbarButton("openBtn", Tooltip("Open"))
-    private val saveBtn = ToolbarButton("saveBtn", Tooltip("Save"))
-    private val backBtn = ToolbarButton("backBtn", Tooltip("Back"))
-    private val forwardBtn = ToolbarButton("forwardBtn", Tooltip("Forward"))
-    private val runBtn = ToolbarButton("runBtn", Tooltip("Play"))
-    private val debugBtn = ToolbarButton("debugBtn", Tooltip("Debug"))
-    private val stopBtn = ToolbarButton("stopBtn", Tooltip("Stop"))
-    private val findBtn = ToolbarButton("findBtn", Tooltip("Find"))
+    private val openBtn = ToolbarButton("open", Tooltip("Open"))
+    private val saveBtn = ToolbarButton("save", Tooltip("Save"))
+    private val backBtn = ToolbarButton("back", Tooltip("Back"))
+    private val forwardBtn = ToolbarButton("forward", Tooltip("Forward"))
+    private val runBtn = ToolbarButton("run", Tooltip("Play"))
+    private val debugBtn = ToolbarButton("debug", Tooltip("Debug"))
+    private val stopBtn = ToolbarButton("stop", Tooltip("Stop"))
+    private val findBtn = ToolbarButton("find", Tooltip("Find"))
     private val runComboBox = ToolbarComboBox("Select Project...")
 
     init {

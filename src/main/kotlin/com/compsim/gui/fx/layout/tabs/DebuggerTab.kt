@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout.tabs
 
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.gui.fx.layout.DevicesPane
 import com.compsim.gui.fx.layout.MemoryPane
 import com.compsim.gui.fx.layout.RegistersPane
@@ -9,11 +9,11 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 
-class DebuggerTab(machine: Machine): Tab() {
+class DebuggerTab(controller: Controller): Tab() {
 
-    val memoryPane = MemoryPane(machine)
-    val registersPane = RegistersPane(machine)
-    val devicesPane = DevicesPane(machine)
+    val memoryPane = MemoryPane(controller)
+    val registersPane = RegistersPane(controller)
+    val devicesPane = DevicesPane(controller)
 
     val leftVBox = VBox()
     val rootPane = BorderPane()

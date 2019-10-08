@@ -159,7 +159,7 @@ open class ISA {
 
         @Deprecated("")
         @Throws(IllegalMemAccessException::class, IllegalInstructionException::class)
-        fun execute(registerFile: RegisterFile, memory: Memory, machine: Machine) {
+        fun execute(registerFile: RegisterFile, memory: Memory, controller: Controller) {
             val address = registerFile.pc
             registerFile.checkAddr(address)
             val word = memory.getInst(address)
@@ -167,19 +167,19 @@ open class ISA {
             if (instructionDef == null) {
                 throw IllegalInstructionException("Undefined instruction:  ${word.toHex()}")
             } else {
-                val var6 = instructionDef.execute(word, address, registerFile, memory, machine)
+                val var6 = instructionDef.execute(word, address, registerFile, memory, controller)
                 registerFile.pc = var6
-                ++machine.cycleCount
-                ++machine.instructionCount
-                val var7 = machine.branchPredictor.getPredictedPC(address)
-                if (var6 != var7) {
-                    machine.cycleCount += 2
-                    machine.branchStallCount += 2
-                    machine.branchPredictor.update(address, var6)
-                }
+                ++controller.cycleCount
+                ++controller.instructionCount
+//                val var7 = machine.branchPredictor.getPredictedPC(address)
+//                if (var6 != var7) {
+//                    machine.cycleCount += 2
+//                    machine.branchStallCount += 2
+//                    machine.branchPredictor.update(address, var6)
+//                }
 
                 if (instructionDef.isLoad) {
-                    val var8 = machine.memory.getInst(var6)
+                    val var8 = controller.memory.getInst(var6)
                     val var9 = lookupTable[var8.value]
                         ?: throw IllegalInstructionException("Undefined instruction:  ${var8.toHex()}")
 
@@ -189,25 +189,25 @@ open class ISA {
                                 var8
                             ))
                         ) {
-                            ++machine.cycleCount
-                            ++machine.loadStallCount
+                            ++controller.cycleCount
+                            ++controller.loadStallCount
                         }
                     }
                 }
 
-                if (machine.isTraceEnabled) {
-                    machine.generateTrace(instructionDef, address, word)
+                if (controller.isTraceEnabled) {
+                    controller.generateTrace(instructionDef, address, word)
                 }
 
             }
         }
 
-        fun disassemble(word: Word, var1: Int, machine: Machine): String {
-            return if (!machine.lookupAddressToInstruction(var1) && !CompSim.isLC3) {
+        fun disassemble(word: Word, var1: Int, controller: Controller): String {
+            return if (!controller.lookupAddressToInstruction(var1) && !CompSim.isLC3) {
                 ""
             } else {
                 val var3 = lookupTable[word.value]
-                if (var3 == null) ".FILL " + word.toHex() else var3.disassemble(word, var1, machine)
+                if (var3 == null) ".FILL " + word.toHex() else var3.disassemble(word, var1, controller)
             }
         }
 

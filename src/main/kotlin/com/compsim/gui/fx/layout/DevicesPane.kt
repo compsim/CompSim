@@ -1,10 +1,10 @@
 package com.compsim.gui.fx.layout
 
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import javafx.scene.control.TitledPane
 
 
-class DevicesPane(machine: Machine): TitledPane() {
+class DevicesPane(controller: Controller): TitledPane() {
 
     init {
         this.text = "Devices"

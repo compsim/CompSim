@@ -2,7 +2,7 @@ package com.compsim.gui.fx
 
 import com.compsim.CompSim
 import com.compsim.core.Console
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.core.Memory.Companion.MEM_SIZE
 import com.compsim.gui.fx.layout.ConsolePane
 import com.compsim.gui.fx.layout.MainToolbar
@@ -31,7 +31,7 @@ import kotlin.system.exitProcess
 
 class CompSimGUI: Application() {
 
-    val machine = Machine()
+    val machine = Controller()
     private val root = BorderPane()
     private lateinit var menuBar: MenuBar
 
@@ -79,8 +79,7 @@ class CompSimGUI: Application() {
 
 
         window.scene = Scene(root, 1024.0, 768.0)
-//        window.scene.stylesheets.add(CompSimGUI::class.java.getResource("/icons.css").toString())
-        window.scene.stylesheets.add(Loader.loadRes("icons.css"))
+        window.scene.stylesheets.add(Loader.loadRes("style.css"))
         window.minWidth = 1024.0
         window.minHeight = 768.0
         window.title = "${CompSim.version} JavaFX"
@@ -145,12 +144,14 @@ class CompSimGUI: Application() {
         selectAllItem.setOnAction {  }
         findItem.isDisable = true
         findItem.setOnAction {  }
-        editMenu.items.addAll(copyItem, pasteItem, SeparatorMenuItem(), selectAllItem, SeparatorMenuItem(), findItem)
+        replaceItem.isDisable = true
+        replaceItem.setOnAction {  }
+        editMenu.items.addAll(copyItem, pasteItem, SeparatorMenuItem(), selectAllItem, SeparatorMenuItem(), findItem, replaceItem)
 
         // Help menu
         wikiItem.setOnAction {
             try {
-                Desktop.getDesktop().browse(URL("https://github.com/dadler64/CompSim/wiki").toURI())
+                Desktop.getDesktop().browse(URL("https://github.com/compsim/CompSim/wiki").toURI())
             } catch (e: IOException) {
                 println("ERROR: Could not open link")
                 e.printStackTrace()

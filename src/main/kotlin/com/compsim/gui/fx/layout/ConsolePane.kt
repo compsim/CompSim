@@ -2,7 +2,7 @@ package com.compsim.gui.fx.layout
 
 import com.compsim.core.CommandLine
 import com.compsim.core.Console
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.util.exceptions.GenericException
 import javafx.event.EventHandler
 import javafx.scene.Node
@@ -15,7 +15,7 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import kotlin.system.exitProcess
 
-class ConsolePane(private val machine: Machine): TitledPane(), Console.PrintableConsole {
+class ConsolePane(private val controller: Controller): TitledPane(), Console.PrintableConsole {
     private val commandLine: CommandLine
     private val consoleVBox = VBox()
     private val inputField = TextField()
@@ -34,7 +34,7 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
         VBox.setVgrow(inputField, Priority.NEVER)
 
         // TODO: Fix issue where outputArea and ScrollPane will not fill right
-        this.commandLine = CommandLine(machine)
+        this.commandLine = CommandLine(controller)
 
         inputField.onKeyPressed = EventHandler { keyEvent ->
             var input: String
@@ -43,7 +43,7 @@ class ConsolePane(private val machine: Machine): TitledPane(), Console.Printable
                     input = inputField.text
                     this.commandLine.scheduleCommand(input)
 
-                    while (this.commandLine.hasMoreCommands && (!this.machine.isContinueMode || this.commandLine.isStopQueued)) {
+                    while (this.commandLine.hasMoreCommands && (!this.controller.isContinueMode || this.commandLine.isStopQueued)) {
                         try {
                             input = this.commandLine.runCommand(this.commandLine.nextCommand)
                             if (input != null) {

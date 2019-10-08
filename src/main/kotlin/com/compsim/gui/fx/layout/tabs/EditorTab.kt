@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout.tabs
 
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.gui.fx.control.ToolbarButton
 import com.compsim.gui.fx.control.ToolbarSeparator
 import com.compsim.util.Logger
@@ -20,7 +20,7 @@ import javafx.stage.Stage
 import java.io.*
 import java.util.*
 
-class EditorTab(machine: Machine): Tab() {
+class EditorTab(controller: Controller): Tab() {
     // TabPane for all open files in the EditorTab
     val fileTabPane = TabPane()
 
@@ -29,18 +29,18 @@ class EditorTab(machine: Machine): Tab() {
         get() = fileTabPane.selectionModel.selectedItem as FileTab
         set(value) = fileTabPane.selectionModel.select(value)
 
-    private val newBtn = ToolbarButton("newBtn", Tooltip("New"))
-    private val openBtn = ToolbarButton("openBtn", Tooltip("Open"))
-    private val saveBtn = ToolbarButton("saveBtn", Tooltip("Save"))
+    private val newBtn = ToolbarButton("fileNew", Tooltip("New"))
+    private val openBtn = ToolbarButton("open", Tooltip("Open"))
+    private val saveBtn = ToolbarButton("save", Tooltip("Save"))
 
-    private val undoBtn = ToolbarButton("undoBtn", Tooltip("Undo"))
-    private val redoBtn = ToolbarButton("redoBtn", Tooltip("Redo"))
-    private val findBtn = ToolbarButton("findBtn", Tooltip("Find"))
-    private val replaceBtn = ToolbarButton("replaceBtn", Tooltip("Replace"))
+    private val undoBtn = ToolbarButton("undo", Tooltip("Undo"))
+    private val redoBtn = ToolbarButton("redo", Tooltip("Redo"))
+    private val findBtn = ToolbarButton("find", Tooltip("Find"))
+    private val replaceBtn = ToolbarButton("replace", Tooltip("Replace"))
 
-    private val convertBase2Btn = ToolbarButton("convertBase2Btn", Tooltip("Convert from base 2"))
-    private val convertBase16Btn = ToolbarButton("convertBase16Btn", Tooltip("Convert from base 16"))
-    private val assembleBtn = ToolbarButton("assembleBtn", Tooltip("Assemble"))
+    private val convertBase2Btn = ToolbarButton("fileBin", Tooltip("Convert from base 2"))
+    private val convertBase16Btn = ToolbarButton("fileHex", Tooltip("Convert from base 16"))
+    private val assembleBtn = ToolbarButton("fileAsm", Tooltip("Assemble"))
 
 
     init {
@@ -130,9 +130,9 @@ class EditorTab(machine: Machine): Tab() {
         redoBtn.isDisable = true
         findBtn.isDisable = true
         replaceBtn.isDisable = true
-        convertBase2Btn.isDisable = true
-        convertBase16Btn.isDisable = true
-        assembleBtn.isDisable = true
+        convertBase2Btn.isDisable = false
+        convertBase16Btn.isDisable = false
+        assembleBtn.isDisable = false
 
         toolbar.items.addAll(
             newBtn, openBtn, saveBtn,

@@ -9,7 +9,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
-class CommandLine(val machine: Machine) {
+class CommandLine(val controller: Controller) {
 
     private val commandQueue = LinkedList<String>()
     private val prevHistoryStack = Stack<String>()
@@ -196,11 +196,11 @@ class CommandLine(val machine: Machine) {
                     argArray[1].toLowerCase().equals(
                             "set",
                             ignoreCase = true
-                    ) -> this@CommandLine.machine.memory.setBreakPoint(argArray[2])
+                    ) -> this@CommandLine.controller.memory.setBreakPoint(argArray[2])
                     argArray[1].toLowerCase().equals(
                             "clear",
                             ignoreCase = true
-                    ) -> this@CommandLine.machine.memory.clearBreakPoint(argArray[2])
+                    ) -> this@CommandLine.controller.memory.clearBreakPoint(argArray[2])
                     else -> this.usage
                 }
             }
@@ -259,7 +259,7 @@ class CommandLine(val machine: Machine) {
                                     return "check counts reset"
                                 }
                                 else -> {
-                                    val registers = this@CommandLine.machine.registers
+                                    val registers = this@CommandLine.controller.registers
                                     return if ((argArray[1].toLowerCase() != "n" || !registers.n) && (argArray[1].toLowerCase() != "z" || !registers.z) && (argArray[1].toLowerCase() != "p" || !registers.p))
                                         this.check(false, argArray, registers.printCC())
                                     else
@@ -269,7 +269,7 @@ class CommandLine(val machine: Machine) {
                         } else {
                             var regValue = Word.parseNum(argArray[argSize - 1])
                             if (regValue == Int.MAX_VALUE) {
-                                regValue = this@CommandLine.machine.lookupSym(argArray[argSize - 1])
+                                regValue = this@CommandLine.controller.lookupSym(argArray[argSize - 1])
                                 if (regValue == Int.MAX_VALUE) {
                                     return "Bad value or label: ${argArray[argSize - 1]}"
                                 }
@@ -279,7 +279,7 @@ class CommandLine(val machine: Machine) {
                             if (isRegister != null) {
                                 return this.check(isRegister, argArray, this@CommandLine.getRegister(argArray[1]))
                             } else {
-                                val startAddress = this@CommandLine.machine.getAddress(argArray[1])
+                                val startAddress = this@CommandLine.controller.getAddress(argArray[1])
                                 when (startAddress) {
                                     Int.MAX_VALUE -> return "Bad register, value or label: ${argArray[1]}"
                                     in 0..65535 -> {
@@ -287,7 +287,7 @@ class CommandLine(val machine: Machine) {
                                         if (argSize == 3) {
                                             endAddress = startAddress
                                         } else {
-                                            endAddress = this@CommandLine.machine.getAddress(argArray[2])
+                                            endAddress = this@CommandLine.controller.getAddress(argArray[2])
                                             if (endAddress == Int.MAX_VALUE) {
                                                 return "Bad register, value or label: ${argArray[1]}"
                                             }
@@ -306,7 +306,7 @@ class CommandLine(val machine: Machine) {
                                         var var9 = ""
 
                                         for (index in startAddress..endAddress) {
-                                            address = this@CommandLine.machine.memory.read(index)
+                                            address = this@CommandLine.controller.memory.read(index)
                                             if (address == null) {
                                                 return "Bad register, value or label: ${argArray[1]}"
                                             }
@@ -356,10 +356,10 @@ class CommandLine(val machine: Machine) {
                 return if (argSize != 1) {
                     this.usage
                 } else {
-                    var output = "Cycle count: ${this@CommandLine.machine.cycleCount}\n"
-                    output += "com.compsim.Instruction count: ${this@CommandLine.machine.instructionCount}\n"
-                    output += "Load stall count: ${this@CommandLine.machine.loadStallCount}\n"
-                    output += "Branch stall count: ${this@CommandLine.machine.branchStallCount}\n"
+                    var output = "Cycle count: ${this@CommandLine.controller.cycleCount}\n"
+                    output += "com.compsim.Instruction count: ${this@CommandLine.controller.instructionCount}\n"
+                    output += "Load stall count: ${this@CommandLine.controller.loadStallCount}\n"
+                    output += "Branch stall count: ${this@CommandLine.controller.branchStallCount}\n"
                     output
                 }
             }
@@ -373,7 +373,7 @@ class CommandLine(val machine: Machine) {
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
                 Console.println("use the 'stop' command to interrupt execution")
-                this@CommandLine.machine.executeMany()
+                this@CommandLine.controller.executeMany()
                 return ""
             }
 
@@ -404,8 +404,8 @@ class CommandLine(val machine: Machine) {
                         }
                     }
 
-                    val startAddress = this@CommandLine.machine.getAddress(argArray[argSize - 3])
-                    val endAddress = this@CommandLine.machine.getAddress(argArray[argSize - 2])
+                    val startAddress = this@CommandLine.controller.getAddress(argArray[argSize - 3])
+                    val endAddress = this@CommandLine.controller.getAddress(argArray[argSize - 2])
                     if (startAddress == Int.MAX_VALUE) {
                         return "Error: Invalid register, address, or label  ('${argArray[argSize - 3]}')"
                     } else if (startAddress in 0..65535) {
@@ -436,7 +436,7 @@ class CommandLine(val machine: Machine) {
                                 }
 
                                 for (index in startAddress..endAddress) {
-                                    word = this@CommandLine.machine.memory.read(index)
+                                    word = this@CommandLine.controller.memory.read(index)
                                     if (word == null) {
                                         return "Bad register, value or label: ${argArray[argSize - 3]}"
                                     }
@@ -456,7 +456,7 @@ class CommandLine(val machine: Machine) {
                                                 ISA.disassemble(
                                                         word,
                                                         index,
-                                                        this@CommandLine.machine
+                                                        this@CommandLine.controller
                                                 )
                                         )
                                         else -> assert(false) { "Invalid flag to `dump' command: ${argArray[1]}" }
@@ -524,7 +524,7 @@ class CommandLine(val machine: Machine) {
                     else -> {
                         val inputFile = File(argArray[1])
                         if (inputFile.exists())
-                            this@CommandLine.machine.setKeyboardInputStream(inputFile)
+                            this@CommandLine.controller.setKeyboardInputStream(inputFile)
                         else
                             "Error: file ${argArray[1]} does not exist."
                     }
@@ -543,12 +543,12 @@ class CommandLine(val machine: Machine) {
                     return this.usage
                 } else if (argSize == 1) {
                     this@CommandLine.scrollToPC()
-                    return "${Word.toHex(this@CommandLine.machine.registers.pc)} : ${this@CommandLine.machine.memory.getInst(
-                            this@CommandLine.machine.registers.pc
+                    return "${Word.toHex(this@CommandLine.controller.registers.pc)} : ${this@CommandLine.controller.memory.getInst(
+                            this@CommandLine.controller.registers.pc
                     ).toHex()} : ${ISA.disassemble(
-                            this@CommandLine.machine.memory.getInst(this@CommandLine.machine.registers.pc),
-                            this@CommandLine.machine.registers.pc,
-                            this@CommandLine.machine
+                            this@CommandLine.controller.memory.getInst(this@CommandLine.controller.registers.pc),
+                            this@CommandLine.controller.registers.pc,
+                            this@CommandLine.controller
                     )}"
                 } else {
                     val endAddr: Int
@@ -557,7 +557,7 @@ class CommandLine(val machine: Machine) {
                         if (register != null) {
                             return "${argArray[1]} : $register"
                         } else {
-                            endAddr = this@CommandLine.machine.getAddress(argArray[1])
+                            endAddr = this@CommandLine.controller.getAddress(argArray[1])
                             if (endAddr == Integer.MAX_VALUE) {
                                 return "Error: Invalid address or label (${argArray[1]})"
                             } else {
@@ -566,16 +566,16 @@ class CommandLine(val machine: Machine) {
 //                                    this@CommandLine.LC3GUI.scrollToIndex(endAddr)
                                 }
 
-                                return "${Word.toHex(endAddr)} : ${this@CommandLine.machine.memory.read(endAddr)!!.toHex()} : ${ISA.disassemble(
-                                        this@CommandLine.machine.memory.read(endAddr)!!,
+                                return "${Word.toHex(endAddr)} : ${this@CommandLine.controller.memory.read(endAddr)!!.toHex()} : ${ISA.disassemble(
+                                        this@CommandLine.controller.memory.read(endAddr)!!,
                                         endAddr,
-                                        this@CommandLine.machine
+                                        this@CommandLine.controller
                                 )}"
                             }
                         }
                     } else {
-                        val startAddr = this@CommandLine.machine.getAddress(argArray[1])
-                        endAddr = this@CommandLine.machine.getAddress(argArray[2])
+                        val startAddr = this@CommandLine.controller.getAddress(argArray[1])
+                        endAddr = this@CommandLine.controller.getAddress(argArray[2])
                         if (startAddr == Integer.MAX_VALUE) {
                             return "Error: Invalid address or label (${argArray[1]})"
                         } else if (endAddr == Integer.MAX_VALUE) {
@@ -587,10 +587,10 @@ class CommandLine(val machine: Machine) {
 
                             for (address in startAddr..endAddr) {
                                 output.append(
-                                        "${Word.toHex(address)} : ${this@CommandLine.machine.memory.read(address)!!.toHex()} : ${ISA.disassemble(
-                                                this@CommandLine.machine.memory.read(address) as Word,
+                                        "${Word.toHex(address)} : ${this@CommandLine.controller.memory.read(address)!!.toHex()} : ${ISA.disassemble(
+                                                this@CommandLine.controller.memory.read(address) as Word,
                                                 address,
-                                                this@CommandLine.machine
+                                                this@CommandLine.controller
                                         )}"
                                 )
                                 if (address != endAddr) {
@@ -619,7 +619,7 @@ class CommandLine(val machine: Machine) {
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
                 return when {
                     argSize != 2 -> this.usage
-                    else -> this@CommandLine.machine.loadObjectFile(File(argArray[1]))
+                    else -> this@CommandLine.controller.loadObjectFile(File(argArray[1]))
                 }
             }
 
@@ -645,7 +645,7 @@ class CommandLine(val machine: Machine) {
                 return if (argSize != 1) {
                     this.usage
                 } else {
-                    this@CommandLine.machine.executeNext()
+                    this@CommandLine.controller.executeNext()
                     ""
                 }
             }
@@ -659,7 +659,7 @@ class CommandLine(val machine: Machine) {
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
                 return when {
                     argSize != 1 -> this.usage
-                    else -> this@CommandLine.machine.registers.toString()
+                    else -> this@CommandLine.controller.registers.toString()
                 }
             }
 
@@ -688,8 +688,8 @@ class CommandLine(val machine: Machine) {
                 when {
                     argSize != 1 -> return this.usage
                     else -> {
-                        this@CommandLine.machine.stopExecution(false)
-                        this@CommandLine.machine.reset()
+                        this@CommandLine.controller.stopExecution(false)
+                        this@CommandLine.controller.reset()
                         this@CommandLine.checksPassed = 0
                         this@CommandLine.checksFailed = 0
                         return "System reset..."
@@ -743,7 +743,7 @@ class CommandLine(val machine: Machine) {
                     } else {
                         var symbol = Word.parseNum(argArray[argSize - 1])
                         if (symbol == Integer.MAX_VALUE) {
-                            symbol = this@CommandLine.machine.lookupSym(argArray[argSize - 1])
+                            symbol = this@CommandLine.controller.lookupSym(argArray[argSize - 1])
                         }
 
                         if (symbol == Integer.MAX_VALUE) {
@@ -756,7 +756,7 @@ class CommandLine(val machine: Machine) {
                                 }
                             }
 
-                            val startAddr = this@CommandLine.machine.getAddress(argArray[1])
+                            val startAddr = this@CommandLine.controller.getAddress(argArray[1])
                             if (startAddr == Integer.MAX_VALUE) {
                                 return "Error: Invalid register, address, or label  ('${argArray[1]}')"
                             } else if (startAddr in 0..65535) {
@@ -764,7 +764,7 @@ class CommandLine(val machine: Machine) {
                                 if (argSize == 3) {
                                     endAddr = startAddr
                                 } else {
-                                    endAddr = this@CommandLine.machine.getAddress(argArray[2])
+                                    endAddr = this@CommandLine.controller.getAddress(argArray[2])
                                     if (endAddr == Integer.MAX_VALUE) {
                                         return "Error: Invalid register, address, or label  ('${argArray[1]}')"
                                     }
@@ -779,7 +779,7 @@ class CommandLine(val machine: Machine) {
                                 }
 
                                 for (address in startAddr..endAddr) {
-                                    this@CommandLine.machine.memory.write(address, symbol)
+                                    this@CommandLine.controller.memory.write(address, symbol)
                                 }
 
                                 return if (argSize == 3) "com.compsim.Memory location ${Word.toHex(
@@ -805,7 +805,7 @@ class CommandLine(val machine: Machine) {
                 get() = "Steps into the next instruction."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                this@CommandLine.machine.executeStep()
+                this@CommandLine.controller.executeStep()
                 return ""
             }
 
@@ -817,7 +817,7 @@ class CommandLine(val machine: Machine) {
                 get() = "Stops execution temporarily."
 
             override fun doCommand(argArray: Array<String>, argSize: Int): String {
-                return this@CommandLine.machine.stopExecution(true)
+                return this@CommandLine.controller.stopExecution(true)
             }
 
         }
@@ -833,7 +833,7 @@ class CommandLine(val machine: Machine) {
                     if (argSize == 3) {
                         if (!argArray[1].equals("on", ignoreCase = true)) {
                             return this.usage
-                        } else if (this@CommandLine.machine.isTraceEnabled) {
+                        } else if (this@CommandLine.controller.isTraceEnabled) {
                             return "Tracing is already on."
                         } else {
                             val file = File(argArray[argSize - 1])
@@ -850,7 +850,7 @@ class CommandLine(val machine: Machine) {
                                 return "Error opening file: ${file.name}"
                             }
 
-                            this@CommandLine.machine.traceWriter = writer
+                            this@CommandLine.controller.traceWriter = writer
                             return "Tracing is on."
                         }
                     } else {
@@ -858,12 +858,12 @@ class CommandLine(val machine: Machine) {
 
                         if (!argArray[1].equals("off", ignoreCase = true)) {
                             return this.usage
-                        } else if (!this@CommandLine.machine.isTraceEnabled) {
+                        } else if (!this@CommandLine.controller.isTraceEnabled) {
                             return "Tracing is already off."
                         } else {
-                            this@CommandLine.machine.traceWriter?.flush()
-                            this@CommandLine.machine.traceWriter?.close()
-                            this@CommandLine.machine.disableTrace()
+                            this@CommandLine.controller.traceWriter?.flush()
+                            this@CommandLine.controller.traceWriter?.close()
+                            this@CommandLine.controller.disableTrace()
                             return "tracing is off."
                         }
                     }
@@ -976,18 +976,18 @@ class CommandLine(val machine: Machine) {
         )}"
         when {
             register.equals("pc", ignoreCase = true) -> {
-                this.machine.registers.pc = regValue
+                this.controller.registers.pc = regValue
                 this.scrollToPC()
             }
-            register.equals("psr", ignoreCase = true) -> this.machine.registers.psr = regValue
+            register.equals("psr", ignoreCase = true) -> this.controller.registers.psr = regValue
             register.equals("mpr", ignoreCase = true) -> {
-                val memory = this.machine.memory
-                this.machine.memory
+                val memory = this.controller.memory
+                this.controller.memory
                 memory.write(65042, regValue)
             }
             register.startsWith("r", ignoreCase = true) && register.length == 2 -> {
                 val reg = register.substring(1, 2).toInt()
-                this.machine.registers.setRegister(reg, regValue)
+                this.controller.registers.setRegister(reg, regValue)
             }
             else -> update = "Error: Register ${register.toUpperCase()} failed to update"
         }
@@ -1002,15 +1002,15 @@ class CommandLine(val machine: Machine) {
     fun setConditionCodes(psrValue: String): String {
         return when {
             psrValue.equals("n", ignoreCase = true) -> {
-                this.machine.registers.setN()
+                this.controller.registers.setN()
                 "PSR N bit set"
             }
             psrValue.equals("z", ignoreCase = true) -> {
-                this.machine.registers.setZ()
+                this.controller.registers.setZ()
                 "PSR Z bit set"
             }
             psrValue.equals("p", ignoreCase = true) -> {
-                this.machine.registers.setP()
+                this.controller.registers.setP()
                 "PSR P bit set"
             }
             else -> "Error: PSR bit $psrValue failed to update"
@@ -1025,16 +1025,16 @@ class CommandLine(val machine: Machine) {
      */
     fun getRegister(register: String): String {
         val regValue = when {
-            register.equals("pc", ignoreCase = true) -> this.machine.registers.pc
-            register.equals("psr", ignoreCase = true) -> this.machine.registers.psr
-            register.equals("mpr", ignoreCase = true) -> this.machine.registers.mpr
+            register.equals("pc", ignoreCase = true) -> this.controller.registers.pc
+            register.equals("psr", ignoreCase = true) -> this.controller.registers.psr
+            register.equals("mpr", ignoreCase = true) -> this.controller.registers.mpr
             // TODO: See if the following if statement can be flipped for less complexity
             else -> {
                 if (!register.startsWith("r", ignoreCase = true) || register.length != 2) {
                     return ""
                 }
                 val reg = register.substring(1, 2).toInt()
-                this.machine.registers.getRegister(reg)
+                this.controller.registers.getRegister(reg)
             }
         }
 

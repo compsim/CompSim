@@ -1,6 +1,6 @@
 package com.compsim.gui.fx.layout
 
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.core.Word
 import com.compsim.gui.fx.control.CheckBoxTableCell
 import com.compsim.helpers.MemoryRow
@@ -13,10 +13,10 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 
 
-class MemoryPane(val machine: Machine): TitledPane() {
+class MemoryPane(val controller: Controller): TitledPane() {
         val memoryPaneVBox = VBox()
-        val memoryTable = MemoryTable(machine)
-        val debuggerToolBar = DebuggerToolBar(machine)
+        val memoryTable = MemoryTable(controller)
+        val debuggerToolBar = DebuggerToolBar(controller)
 
     init {
         this.text = "MemoryRow"
@@ -32,12 +32,13 @@ class MemoryPane(val machine: Machine): TitledPane() {
         this.content = memoryPaneVBox
 
         debuggerToolBar.showExecBtn.setOnAction {
-            scrollTo(0x3000)
-            selectRow(0x3000)
+            val pc = controller.registers.pc
+            scrollTo(pc)
+            selectRow(pc)
         }
     }
 
-    class MemoryTable(val machine: Machine): TableView<MemoryRow>() {
+    class MemoryTable(val controller: Controller): TableView<MemoryRow>() {
 
         init {
             // Breakpoint Column
@@ -131,7 +132,7 @@ class MemoryPane(val machine: Machine): TitledPane() {
     fun generateMemoryRows(memorySize: Int) {
         resetData()
         for (i in 0..memorySize) {
-            machine.data.add(MemoryRow(false, i, "x0000", ".FILL x0000"))
+            controller.data.add(MemoryRow(false, i, "x0000", ".FILL x0000"))
         }
         updateTable()
     }
@@ -141,18 +142,18 @@ class MemoryPane(val machine: Machine): TitledPane() {
     }
 
     private fun resetData() {
-        machine.data.remove(0, machine.data.size)
+        controller.data.remove(0, controller.data.size)
     }
 
     private fun updateTable() {
         memoryTable.items.clear()
-        memoryTable.items = machine.data
+        memoryTable.items = controller.data
     }
 
     fun scrollTo(cellNum: Int) {
         if (cellNum in 0..0xffff) {
             try {
-                memoryTable.scrollTo(machine.data[cellNum])
+                memoryTable.scrollTo(controller.data[cellNum])
             } catch (e: NumberFormatException) {
                 infoln("\"$cellNum\" is not a valid Int!")
             }

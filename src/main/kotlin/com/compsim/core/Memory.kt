@@ -4,7 +4,7 @@ import com.compsim.util.TimerDevice
 import com.compsim.util.exceptions.IllegalMemAccessException
 import javax.swing.table.AbstractTableModel
 
-class Memory(private val machine: Machine) : AbstractTableModel() {
+class Memory(private val controller: Controller) : AbstractTableModel() {
     private val memoryArray = Array(65536) { Word() }
     private val colNames = arrayOf("BP", "Address", "Value", "com.compsim.Instruction")
     private val nextBreakPoints = BooleanArray(65536)
@@ -56,11 +56,11 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
     }
 
     fun setBreakPoint(var1: String): String {
-        val var3 = this.machine.getAddress(var1)
+        val var3 = this.controller.getAddress(var1)
         var var2: String
         if (var3 != Integer.MAX_VALUE) {
             var2 = this.setBreakPoint(var3)
-            if (this.machine.existSym(var1)) {
+            if (this.controller.existSym(var1)) {
                 var2 = "$var2 ('$var1')"
             }
         } else {
@@ -82,11 +82,11 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
     }
 
     fun clearBreakPoint(address: String): String {
-        val addressInt = this.machine.getAddress(address)
+        val addressInt = this.controller.getAddress(address)
         var value: String
         if (addressInt != Integer.MAX_VALUE) {
             value = this.clearBreakPoint(addressInt)
-            if (this.machine.existSym(address)) {
+            if (this.controller.existSym(address)) {
                 value = "$value ('$address')"
             }
         } else {
@@ -162,7 +162,7 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
             0 -> var3 = this.isBreakPointSet(var1)
             1 -> {
                 var3 = Word.toHex(var1)
-                val var4 = this.machine.lookupSym(var1)
+                val var4 = this.controller.lookupSym(var1)
                 if (var4 != null) {
                     var3 = "${"$var3 "}$var4"
                 }
@@ -173,7 +173,7 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
                 "???"
             }
             3 -> var3 = if (var1 < 65024) {
-                ISA.disassemble(this.memoryArray[var1], var1, this.machine)
+                ISA.disassemble(this.memoryArray[var1], var1, this.controller)
             } else {
                 "Use 'list' to query"
             }
@@ -188,7 +188,7 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
 
     @Throws(IllegalMemAccessException::class)
     fun checkAndRead(address: Int): Word? {
-        this.machine.registers.checkAddr(address)
+        this.controller.registers.checkAddr(address)
         return this.read(address)
     }
 
@@ -200,8 +200,8 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
             65028 -> var2 = this.monitorDevice.status()
             65032 -> var2 = this.timerDevice.status()
             65034 -> var2 = Word(this.timerDevice.interval.toInt())
-            65042 -> var2 = Word(this.machine.registers.mpr)
-            65534 -> var2 = Word(this.machine.registers.mcr)
+            65042 -> var2 = Word(this.controller.registers.mpr)
+            65534 -> var2 = Word(this.controller.registers.mcr)
             else -> {
                 if (var1 < 0 || var1 >= 65536) {
                     return null
@@ -232,7 +232,7 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
 
     @Throws(IllegalMemAccessException::class)
     fun checkAndWrite(var1: Int, var2: Int) {
-        this.machine.registers.checkAddr(var1)
+        this.controller.registers.checkAddr(var1)
         this.write(var1, var2)
     }
 
@@ -253,13 +253,13 @@ class Memory(private val machine: Machine) : AbstractTableModel() {
                     }
                 }
             }
-            65042 -> this.machine.registers.mpr = var2
+            65042 -> this.controller.registers.mpr = var2
             65534 -> {
-                this.machine.registers.mcr = var2
+                this.controller.registers.mcr = var2
                 if (var2 and '耀'.toInt() == 0) {
-                    this.machine.stopExecution(1, true)
+                    this.controller.stopExecution(1, true)
                 } else {
-                    this.machine.updateStatusLabel()
+                    this.controller.updateStatusLabel()
                 }
             }
         }

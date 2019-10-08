@@ -15,7 +15,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) + registerFile.getRegister(this.getTReg(word))
@@ -33,7 +33,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) - registerFile.getRegister(this.getTReg(word))
@@ -51,7 +51,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val register = registerFile.getRegister(this.getSReg(word)) + this.getSignedImmed(word)
                     registerFile.setRegister(this.getDReg(word), register)
@@ -68,7 +68,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val register =
                         registerFile.getRegister(this.getSReg(word)) and registerFile.getRegister(this.getTReg(word))
@@ -86,7 +86,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val register = registerFile.getRegister(this.getSReg(word)) and this.getSignedImmed(word)
                     registerFile.setRegister(this.getDReg(word), register)
@@ -111,7 +111,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return registerFile.getRegister(7)
                 }
@@ -125,7 +125,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return registerFile.getRegister(this.getDReg(word))
                 }
@@ -139,7 +139,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.privMode = false
                     return registerFile.getRegister(7)
@@ -154,7 +154,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.privMode = false
                     return registerFile.getRegister(this.getDReg(word))
@@ -172,7 +172,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.setRegister(7, var2 + 1)
                     return var2 + 1 + this.getPCOffset(word)
@@ -190,7 +190,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     registerFile.setRegister(7, var2 + 1)
@@ -220,7 +220,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = memory.checkAndRead(var2 + 1 + this.getPCOffset(word))!!.value
                     registerFile.setRegister(this.getDReg(word), var6)
@@ -251,7 +251,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = memory.checkAndRead(var2 + 1 + this.getPCOffset(word))!!.value
                     val var7 = memory.checkAndRead(var6)!!.value
@@ -283,7 +283,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         memory.checkAndRead(registerFile.getRegister(this.getSReg(word)) + this.getSignedImmed(word))!!.value
@@ -301,7 +301,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.setRegister(this.getDReg(word), var2 + 1 + this.getPCOffset(word))
                     registerFile.setNZP(var2 + 1 + this.getPCOffset(word))
@@ -331,7 +331,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     memory.checkAndWrite(var2 + 1 + this.getPCOffset(word), var6)
@@ -361,7 +361,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = memory.checkAndRead(var2 + 1 + this.getPCOffset(word))!!.value
                     val register = registerFile.getRegister(this.getDReg(word))
@@ -392,7 +392,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     memory.checkAndWrite(registerFile.getRegister(this.getSReg(word)) + this.getSignedImmed(word), var6)
@@ -408,7 +408,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val register = registerFile.getRegister(this.getSReg(word)).inv()
                     registerFile.setRegister(this.getDReg(word), register)
@@ -425,7 +425,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val register =
                         registerFile.getRegister(this.getSReg(word)) * registerFile.getRegister(this.getTReg(word))
@@ -443,7 +443,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getSReg(word)) * this.getSignedImmed(word)
                     registerFile.setRegister(this.getDReg(word), var6)
@@ -461,7 +461,7 @@ class LC3 : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     if (registerFile.privMode) {
                         val var6 = registerFile.getRegister(6)
@@ -490,7 +490,7 @@ class LC3 : ISA() {
             get() = true
 
         @Throws(IllegalMemAccessException::class, IllegalInstructionException::class)
-        override fun execute(var1: Word, var2: Int, var3: RegisterFile, var4: Memory, var5: Machine): Int {
+        override fun execute(var1: Word, var2: Int, var3: RegisterFile, var4: Memory, var5: Controller): Int {
             var3.privMode = true
             var3.setRegister(7, var2 + 1)
             return var4.read(var1.getZext(8, 0))!!.value
@@ -506,7 +506,7 @@ class LC3 : ISA() {
             get() = true
 
         @Throws(IllegalMemAccessException::class, IllegalInstructionException::class)
-        override fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, machine: Machine): Int {
+        override fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, controller: Controller): Int {
             return if ((word.getBit(11) != 1 || !registerFile.n) && (word.getBit(10) != 1 || !registerFile.z) && (word.getBit(
                     9
                 ) != 1 || !registerFile.p)

@@ -1,7 +1,7 @@
 package com.compsim
 
 import com.compsim.core.CommandLine
-import com.compsim.core.Machine
+import com.compsim.core.Controller
 import com.compsim.gui.fx.CompSimGUI
 import com.compsim.gui.fxml.CompSimTestGUI
 import com.compsim.util.ErrorLog
@@ -32,8 +32,7 @@ object CompSim {
             else null
         }
 
-    var version: String = ""
-        get() = "$TITLE Version $VERSION"
+    var version = "$TITLE Version $VERSION"
         private set
 
     private fun printUsage() {
@@ -88,7 +87,7 @@ object CompSim {
             printUsage()
         } else {
             infoln("$isa")
-            val machine = Machine()
+            val machine = Controller()
             val commandLine = CommandLine(machine)
             if (str != null) {
                 commandLine.scheduleCommand("@script $str")

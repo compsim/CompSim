@@ -26,7 +26,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) + registerFile.getRegister(this.getTReg(word))
@@ -55,7 +55,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) - registerFile.getRegister(this.getTReg(word))
@@ -84,7 +84,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) * registerFile.getRegister(this.getTReg(word))
@@ -113,7 +113,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) or registerFile.getRegister(this.getTReg(word))
@@ -138,7 +138,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getSReg(word)).inv()
                     registerFile.setRegister(this.getDReg(word), var6)
@@ -166,7 +166,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) and registerFile.getRegister(this.getTReg(word))
@@ -195,7 +195,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) xor registerFile.getRegister(this.getTReg(word))
@@ -224,7 +224,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) shl (registerFile.getRegister(this.getTReg(word)) and 15)
@@ -253,7 +253,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getSReg(word))
                         .ushr(registerFile.getRegister(this.getTReg(word)) and 15)
@@ -282,7 +282,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         registerFile.getRegister(this.getSReg(word)) shr (registerFile.getRegister(this.getTReg(word)) and 15)
@@ -309,7 +309,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.privMode = false
                     return registerFile.getRegister(this.getDReg(word))
@@ -324,7 +324,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return var2 + 1 + this.getPCOffset(word)
                 }
@@ -342,7 +342,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return registerFile.getRegister(this.getDReg(word))
                 }
@@ -364,7 +364,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.setRegister(7, var2 + 1)
                     return var2 + 1 + this.getPCOffset(word)
@@ -391,7 +391,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     registerFile.setRegister(7, var2 + 1)
@@ -407,7 +407,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return var2 + 1
                 }
@@ -428,7 +428,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 != 0 && var6 and '耀'.toInt() == 0) var2 + 1 + this.getPCOffset(word) else var2 + 1
@@ -452,7 +452,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 == 0) var2 + 1 + this.getPCOffset(word) else var2 + 1
@@ -474,7 +474,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 != 0 && var6 and '耀'.toInt() != 0) var2 + 1 else var2 + 1 + this.getPCOffset(word)
@@ -496,7 +496,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 and '耀'.toInt() != 0) var2 + 1 + this.getPCOffset(word) else var2 + 1
@@ -518,7 +518,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 != 0) var2 + 1 + this.getPCOffset(word) else var2 + 1
@@ -540,7 +540,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) and '\uffff'.toInt()
                     return if (var6 != 0 && var6 and '耀'.toInt() == 0) var2 + 1 else var2 + 1 + this.getPCOffset(word)
@@ -562,7 +562,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     return var2 + 1 + this.getPCOffset(word)
                 }
@@ -580,7 +580,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.setRegister(this.getDReg(word), this.getSignedImmed(word))
                     return var2 + 1
@@ -603,7 +603,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word)) + this.getSignedImmed(word)
                     registerFile.setRegister(this.getDReg(word), var6)
@@ -623,7 +623,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     registerFile.setRegister(this.getDReg(word), var2 + 1 + this.getPCOffset(word))
                     return var2 + 1
@@ -660,7 +660,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 =
                         memory.checkAndRead(registerFile.getRegister(this.getSReg(word)) + this.getSignedImmed(word))!!.value
@@ -699,7 +699,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     memory.checkAndWrite(registerFile.getRegister(this.getSReg(word)) + this.getSignedImmed(word), var6)
@@ -733,7 +733,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = memory.checkAndRead(var2 + 1 + this.getPCOffset(word))!!.value
                     registerFile.setRegister(this.getDReg(word), var6)
@@ -767,7 +767,7 @@ class P37X : ISA() {
                     var2: Int,
                     registerFile: RegisterFile,
                     memory: Memory,
-                    machine: Machine
+                    controller: Controller
                 ): Int {
                     val var6 = registerFile.getRegister(this.getDReg(word))
                     memory.checkAndWrite(var2 + 1 + this.getPCOffset(word), var6)
@@ -781,7 +781,7 @@ class P37X : ISA() {
         override val isCall: Boolean
             get() = true
 
-        override fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, machine: Machine): Int {
+        override fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, controller: Controller): Int {
             registerFile.privMode = true
             registerFile.setRegister(7, var2 + 1)
             return word.getZext(8, 0)

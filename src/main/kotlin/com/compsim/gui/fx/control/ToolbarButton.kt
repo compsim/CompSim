@@ -1,7 +1,9 @@
 package com.compsim.gui.fx.control
 
+import com.compsim.util.Loader.loadImg
 import javafx.scene.control.Button
 import javafx.scene.control.Tooltip
+import javafx.scene.image.ImageView
 
 class ToolbarButton(buttonID: String, tooltip: Tooltip?): Button() {
 
@@ -32,6 +34,7 @@ class ToolbarButton(buttonID: String, tooltip: Tooltip?): Button() {
         if (tooltip != null) {
             this.tooltip = tooltip
         }
+        this.graphic = ImageView(loadImg("icons/$buttonID.png", 16.0, 16.0))
     }
 
     companion object {

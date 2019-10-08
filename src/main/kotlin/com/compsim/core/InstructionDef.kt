@@ -33,7 +33,7 @@ abstract class InstructionDef {
         get() = false
 
     @Throws(IllegalMemAccessException::class, IllegalInstructionException::class)
-    open fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, machine: Machine): Int {
+    open fun execute(word: Word, var2: Int, registerFile: RegisterFile, memory: Memory, controller: Controller): Int {
         throw IllegalInstructionException("Abstract instruction (or pseudo-instruction)")
     }
 
@@ -90,7 +90,7 @@ abstract class InstructionDef {
         return word.getZext(this.unsignedImmed.start, this.unsignedImmed.end)
     }
 
-    fun disassemble(word: Word, var2: Int, machine: Machine?): String {
+    fun disassemble(word: Word, var2: Int, controller: Controller?): String {
         var var4 = true
         var opcode = this.opcode
         if (this.dReg.valid) {
@@ -147,8 +147,8 @@ abstract class InstructionDef {
 
             val var6 = var2 + this.getPCOffset(word) + 1
             var var7: String? = null
-            if (machine != null) {
-                var7 = machine.lookupSym(var6)
+            if (controller != null) {
+                var7 = controller.lookupSym(var6)
             }
 
             opcode += var7 ?: Word.toHex(var6)

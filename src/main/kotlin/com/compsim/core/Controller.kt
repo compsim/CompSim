@@ -9,7 +9,6 @@ import com.compsim.util.exceptions.GenericException
 import com.compsim.util.exceptions.IllegalMemAccessException
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
-import java.awt.Container
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.io.*
@@ -17,13 +16,13 @@ import java.util.*
 import javax.swing.SwingUtilities
 import kotlin.collections.ArrayList
 
-open class Machine : Runnable {
+open class Controller : Runnable {
 
     private val dataArrayList = ArrayList<MemoryRow>(MEM_SIZE)
     val data: ObservableList<MemoryRow>
-    val memory: Memory
     val registers: RegisterFile
-    val branchPredictor: BranchPredictor
+    val memory = Memory(this)
+//    val branchPredictor: BranchPredictor
     val notifyOnStop: LinkedList<ActionListener> = LinkedList()
     var traceWriter: PrintWriter? = null
     val symbolTable = Hashtable<String, Int>()
@@ -48,9 +47,9 @@ open class Machine : Runnable {
 
         // Observable list of memory rows where all of the memory in the memory table is stored
         this.data = FXCollections.observableArrayList<MemoryRow>(dataArrayList)
-        this.memory = Memory(this)
+//        this.memory = Memory(this)
         this.registers = RegisterFile(this)
-        this.branchPredictor = BranchPredictor(this, 8)
+//        this.branchPredictor = BranchPredictor(this, 8)
     }
 
     fun setStoppedListener(actionListener: ActionListener) {
@@ -61,7 +60,7 @@ open class Machine : Runnable {
         this.symbolTable.clear()
         this.inverseTable.clear()
         this.addressToInstructionTable.clear()
-        this.memory.reset()
+//        this.memory.reset()
         this.registers.reset()
         // TODO reset gui
 //        if (this.LC3GUI != null) {
@@ -268,12 +267,12 @@ open class Machine : Runnable {
                 this.registers.pc = var6
                 ++this.cycleCount
                 ++this.instructionCount
-                val var7 = this.branchPredictor.getPredictedPC(var3)
-                if (var6 != var7) {
-                    this.cycleCount += 2
-                    this.branchStallCount += 2
-                    this.branchPredictor.update(var3, var6)
-                }
+//                val var7 = this.branchPredictor.getPredictedPC(var3)
+//                if (var6 != var7) {
+//                    this.cycleCount += 2
+//                    this.branchStallCount += 2
+//                    this.branchPredictor.update(var3, var6)
+//                }
 
                 if (var5.isLoad) {
                     val var8 = this.memory.getInst(var6)
